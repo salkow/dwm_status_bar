@@ -7,7 +7,7 @@
 char clock_emoji[12][5] = 
 	{"🕛", "🕐", "🕑", "🕒", "🕓", "🕔", "🕕", "🕖", "🕗", "🕘", "🕙", "🕚"};
 
-void SetDate(item* date)
+int SetDate(item* date)
 {
 	time_t rawtime;	
 	time(&rawtime);					
@@ -23,6 +23,8 @@ void SetDate(item* date)
 	snprintf(date->value, 35, " %s %d %s %d | %s %02d:%02d",
 			 day, timeinfo->tm_mday, month, timeinfo->tm_year + 1900,
 			 clock_emoji[(timeinfo->tm_hour) % 12], timeinfo->tm_hour, timeinfo->tm_min);
+
+	return 1;
 }
 
 void GetDay(int id, char* day)

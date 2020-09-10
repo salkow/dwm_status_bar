@@ -3,7 +3,7 @@
 
 #include "news.h"
 
-void SetNews(item* news)
+int SetNews(item* news)
 {
     FILE* fp = popen("newsboat -C ~/.config/newsboat/config -x print-unread", "r");
 	if (fp == NULL)
@@ -28,4 +28,6 @@ void SetNews(item* news)
 
         news->is_active = 1;
     }
+
+    return 1;
 }

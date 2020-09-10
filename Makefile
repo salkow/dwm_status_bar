@@ -1,25 +1,36 @@
 CFLAGS := -Wall -Wextra -pedantic -Wshadow -Wpointer-arith -Wcast-align \
             -Wwrite-strings -Wmissing-declarations \
             -Wredundant-decls -Winline \
-            -Wuninitialized -g -lX11
+			-Wuninitialized -O0 -ggdb
 
-all: main.o date.o dwmbar.o temp.o updates.o news.o
-	gcc $(CFLAGS) -o dwm_status_bar main.o date.o dwmbar.o temp.o updates.o news.o
+CC = gcc
+LIBS = -lX11
+
+SRCS = $(wildcard *.c)
+OBJ = $(SRCS:.c=.o)
+
+TARGET = dwm_status_bar
+
+${TARGET}: ${OBJ}
+	${CC} $(CFLAGS) ${LIBS} ${OBJ} -o ${TARGET}
 
 main.o: main.c config.h
-	gcc $(CFLAGS) -c main.c
+	${CC} $(CFLAGS) -c main.c
 
 date.o: date.c date.h
-	gcc $(CFLAGS) -c date.c
+	${CC} $(CFLAGS) -c date.c
 
 dwmbar.o: dwmbar.c dwmbar.h
-	gcc $(CFLAGS) -c dwmbar.c
+	${CC} $(CFLAGS) -c dwmbar.c
 
 temp.o: temp.c temp.h
-	gcc $(CFLAGS) -c temp.c
+	${CC} $(CFLAGS) -c temp.c
 
 updates.o: updates.c updates.h
-	gcc $(CFLAGS) -c updates.c
+	${CC} $(CFLAGS) -c updates.c
 
 news.o: news.c news.h
-	gcc $(CFLAGS) -c news.c
+	${CC} $(CFLAGS) -c news.c
+
+clean:
+	rm *.o ${TARGET}

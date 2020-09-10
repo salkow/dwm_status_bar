@@ -7,7 +7,7 @@
 #include "updates.h"
 #include "news.h"
 
-static item status_bar_items[] = {
+extern item status_bar_items[] = {
 
 	// Date
 	{ "🗓", "", 1, 1, 1, &SetDate },

@@ -1,9 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "updates.h"
 
-void SetUpdates(item* updates)
+int SetUpdates(item* updates)
 {
     FILE* fp = popen("checkupdates", "r");
 	if (fp == NULL)
@@ -32,8 +33,24 @@ void SetUpdates(item* updates)
 
 	else
 	{
+
     	snprintf(updates->value, 10, " %d", num_of_updates);
 
 		updates->is_active = 1;
+
+	}
+
+	// Check if the old value is same as the new.
+	char old_updates_value[50];
+	strcpy(old_updates_value, &(updates->value[sizeof(updates->icon)]));
+
+	if (strcmp(old_updates_value, updates->value) == 0)
+	{
+		return 0;
+	}
+
+	else 
+	{
+		return 1;
 	}
 }

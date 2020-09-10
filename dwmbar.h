@@ -4,7 +4,7 @@
 struct _item;
 typedef struct _item item;
 
-typedef void (*Func)(item*);
+typedef int (*Func)(item*);
 
 typedef struct _item
 {

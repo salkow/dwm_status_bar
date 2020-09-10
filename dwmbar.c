@@ -10,8 +10,9 @@ static Display *dpy;
 
 void SetRoot(char* status_bar_str)
 {
-	Display *d = XOpenDisplay(NULL);
-	if (d) {
+	Display* d = XOpenDisplay(NULL);
+	if (d) 
+	{
 		dpy = d;
 	}
 

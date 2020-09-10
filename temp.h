@@ -3,6 +3,6 @@
 
 #include "dwmbar.h"
 
-void SetTemp(item* temp);
+int SetTemp(item* temp);
 
 #endif // __TEMP_H__

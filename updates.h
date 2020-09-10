@@ -3,6 +3,6 @@
 
 #include "dwmbar.h"
 
-void SetUpdates(item* updates);
+int SetUpdates(item* updates);
 
 #endif // __UPDATES_H__

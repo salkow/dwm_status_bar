@@ -3,6 +3,6 @@
 
 #include "dwmbar.h"
 
-void SetNews(item* news);
+int SetNews(item* news);
 
 #endif // __NEWS_H__
