@@ -1,8 +1,8 @@
 #ifndef __NEWS_H__
 #define __NEWS_H__
 
-#include "dwmbar.h"
+#include "../item.hpp"
 
-int SetNews(item* news);
+int SetNews(Item* news);
 
 #endif // __NEWS_H__

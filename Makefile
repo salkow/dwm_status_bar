@@ -1,36 +1,39 @@
-CFLAGS := -Wall -Wextra -pedantic -Wshadow -Wpointer-arith -Wcast-align \
+CPPFLAGS := -Wall -Wextra -pedantic -Wshadow -Wpointer-arith -Wcast-align \
             -Wwrite-strings -Wmissing-declarations \
             -Wredundant-decls -Winline \
 			-Wuninitialized -O0 -ggdb
 
-CC = gcc
-LIBS = -lX11
+CC = g++
+LIBS = -lX11 -lfmt
 
-SRCS = $(wildcard *.c)
-OBJ = $(SRCS:.c=.o)
+SRCS = $(wildcard *.cpp) $(wildcard modules/*.cpp)
+
+OBJ = $(SRCS:.cpp=.o)
 
 TARGET = dwm_status_bar
 
-${TARGET}: ${OBJ}
-	${CC} $(CFLAGS) ${LIBS} ${OBJ} -o ${TARGET}
+${TARGET}: ${OBJ} ${OBJJ}
+	${CC} $(CPPFLAGS) ${LIBS} ${OBJ} -o ${TARGET}
 
-main.o: main.c config.h
-	${CC} $(CFLAGS) -c main.c
+main.o: main.cpp status_bar.hpp
+	${CC} $(CPPFLAGS) -c main.cpp
 
-date.o: date.c date.h
-	${CC} $(CFLAGS) -c date.c
+status_bar.o: status_bar.cpp status_bar.hpp config.hpp item.hpp
+	${CC} $(CPPFLAGS) -c status_bar.cpp
 
-dwmbar.o: dwmbar.c dwmbar.h
-	${CC} $(CFLAGS) -c dwmbar.c
+# Modules
+date.o: modules/date.cpp modules/date.hpp item.hpp
+	${CC} $(CPPFLAGS) -c modules/date.cpp
 
-temp.o: temp.c temp.h
-	${CC} $(CFLAGS) -c temp.c
+temp.o: modules/temp.cpp modules/temp.hpp item.hpp
+	${CC} $(CPPFLAGS) -c modules/temp.cpp
 
-updates.o: updates.c updates.h
-	${CC} $(CFLAGS) -c updates.c
+updates.o: modules/updates.cpp modules/updates.hpp item.hpp
+	${CC} $(CPPFLAGS) -c modules/updates.cpp
 
-news.o: news.c news.h
-	${CC} $(CFLAGS) -c news.c
+news.o: modules/news.cpp modules/news.hpp item.hpp
+	${CC} $(CPPFLAGS) -c modules/news.cpp
 
 clean:
-	rm *.o ${TARGET}
+	rm *.o modules/*.o ${TARGET}
+

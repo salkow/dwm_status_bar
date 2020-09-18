@@ -1,30 +1,32 @@
-#include <time.h>
-#include <stdio.h>
 #include <string.h>
+#include <fmt/core.h>
+#include <ctime>
+#include <string>
 
-#include "date.h"
+#include "date.hpp"
 
-char clock_emoji[12][5] = 
+static char clock_emoji[12][5] = 
 	{"🕛", "🕐", "🕑", "🕒", "🕓", "🕔", "🕕", "🕖", "🕗", "🕘", "🕙", "🕚"};
 
-int SetDate(item* date)
+int SetDate(Item* date)
 {
-	time_t rawtime;	
-	time(&rawtime);					
+	std::time_t rawtime = std::time(0);
 
-	struct tm* timeinfo = localtime(&rawtime);
+	std::tm* now = std::localtime(&rawtime);
 
 	char day[4];
-	GetDay(timeinfo->tm_wday, day);
+	GetDay(now->tm_wday, day);
 
 	char month[4];
-	GetMonth(timeinfo->tm_mon, month);
+	GetMonth(now->tm_mon, month);
 
-	snprintf(date->value, 35, " %s %d %s %d | %s %02d:%02d",
-			 day, timeinfo->tm_mday, month, timeinfo->tm_year + 1900,
-			 clock_emoji[(timeinfo->tm_hour) % 12], timeinfo->tm_hour, timeinfo->tm_min);
+	std::string old_value = date->_value;	
 
-	return 1;
+	date->_value = fmt::format(" {} {} {} {} | {} {:02}:{:02}",
+					day, now->tm_mday, month, now->tm_year + 1900,
+					clock_emoji[(now->tm_hour) % 12], now->tm_hour, now->tm_min);
+
+	return date->_value != old_value;
 }
 
 void GetDay(int id, char* day)
