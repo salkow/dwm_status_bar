@@ -1,14 +1,18 @@
+#include "date.hpp"
+
 #include <string.h>
 #include <fmt/core.h>
 #include <ctime>
 #include <string>
-
-#include "date.hpp"
+#include <iostream>
 
 static char clock_emoji[12][5] = 
 	{"🕛", "🕐", "🕑", "🕒", "🕓", "🕔", "🕕", "🕖", "🕗", "🕘", "🕙", "🕚"};
 
-int SetDate(Item* date)
+Date::Date(int update_interval, int signal, bool has_event_handler, bool needs_internet)
+	: Item(update_interval, signal, has_event_handler, needs_internet) {}
+
+int Date::SetValue()
 {
 	std::time_t rawtime = std::time(0);
 
@@ -20,16 +24,16 @@ int SetDate(Item* date)
 	char month[4];
 	GetMonth(now->tm_mon, month);
 
-	std::string old_value = date->_value;	
+	std::string old_value = value_;	
 
-	date->_value = fmt::format(" {} {} {} {} | {} {:02}:{:02}",
+	value_ = fmt::format("🗓 {} {} {} {} | {} {:02}:{:02}",
 					day, now->tm_mday, month, now->tm_year + 1900,
 					clock_emoji[(now->tm_hour) % 12], now->tm_hour, now->tm_min);
 
-	return date->_value != old_value;
+	return value_ != old_value;
 }
 
-void GetDay(int id, char* day)
+void Date::GetDay(int id, char* day)
 {
 	switch (id)
 	{
@@ -56,7 +60,7 @@ void GetDay(int id, char* day)
 	}
 }
 
-void GetMonth(int id, char* month)
+void Date::GetMonth(int id, char* month)
 {
 	switch (id)
 	{

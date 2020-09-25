@@ -3,40 +3,22 @@
 
 #include <string>
 
-class Item;
-
-typedef int (*Func)(Item*);
-
-// We use a smaller struct in order to make configuration easier.
-struct ConfItem
+class Item
 {
-    std::string icon;
-	int update_interval;
-	int signal;
-	Func SetValue;
-};
+public:
+    virtual int SetValue() = 0;
+    virtual void UpdateWhenEvent();
 
-struct Item
-{
-    std::string _icon;
+    Item(int update_interval, int signal, bool has_event_handler, bool needs_internet);
+    virtual ~Item();
 
-    std::string _value;
-
-	int _update_interval;
-
-    // Singal app to update item.
-	int _signal;
-
-	Func _SetValue;
-
-	// Controls if you want to show item with it's current value.
-	bool _is_active;
-
-	Item() {}
-
-	Item(std::string icon, int update_interval, int signal, Func SetValue)
-	   	: _icon(icon), _update_interval(update_interval), _signal(signal),
-		  _SetValue(SetValue), _is_active(true) {}
+    int update_interval_;
+    const int default_update_interval_;
+    std::string value_;
+    int signal_;
+    bool is_active_;
+    bool has_event_handler_;
+	bool needs_internet_;
 };
 
 #endif // __ITEM_HPP__

@@ -1,10 +1,10 @@
 CPPFLAGS := -Wall -Wextra -pedantic -Wshadow -Wpointer-arith -Wcast-align \
             -Wwrite-strings -Wmissing-declarations \
             -Wredundant-decls -Winline \
-			-Wuninitialized -O0 -ggdb
+			-Wuninitialized -pthread -O0 -ggdb
 
 CC = g++
-LIBS = -lX11 -lfmt
+LIBS = -lX11 -lfmt -lasound -lxkbfile -lcurl -ljsoncpp
 
 SRCS = $(wildcard *.cpp) $(wildcard modules/*.cpp)
 
@@ -18,22 +18,40 @@ ${TARGET}: ${OBJ} ${OBJJ}
 main.o: main.cpp status_bar.hpp
 	${CC} $(CPPFLAGS) -c main.cpp
 
-status_bar.o: status_bar.cpp status_bar.hpp config.hpp item.hpp
+status_bar.o: status_bar.cpp status_bar.hpp item.o
 	${CC} $(CPPFLAGS) -c status_bar.cpp
+
+item.o: item.cpp item.hpp
+	${CC} ${CPPFLAGS} -c item.cpp
 
 # Modules
 date.o: modules/date.cpp modules/date.hpp item.hpp
-	${CC} $(CPPFLAGS) -c modules/date.cpp
+	$(CC) $(CPPFLAGS) -c modules/date.cpp
 
 temp.o: modules/temp.cpp modules/temp.hpp item.hpp
-	${CC} $(CPPFLAGS) -c modules/temp.cpp
+	$(CC) $(CPPFLAGS) -c modules/temp.cpp
 
 updates.o: modules/updates.cpp modules/updates.hpp item.hpp
-	${CC} $(CPPFLAGS) -c modules/updates.cpp
+	$(CC) $(CPPFLAGS) -c modules/updates.cpp
 
 news.o: modules/news.cpp modules/news.hpp item.hpp
-	${CC} $(CPPFLAGS) -c modules/news.cpp
+	$(CC) $(CPPFLAGS) -c modules/news.cpp
+
+volume.o: modules/volume.cpp modules/volume.hpp item.hpp
+	$(CC) $(CPPFLAGS) -c modules/volume.cpp
+
+keyboard_language.o: modules/keyboard_language.cpp modules/keyboard_language.hpp
+	$(CC) $(CPPFLAGS) -c modules/keyboard_language.cpp 
+
+weather.o: modules/weather.cpp modules/weather.hpp
+	$(CC) $(CPPFLAGS) -c modules/weather.cpp 
 
 clean:
-	rm *.o modules/*.o ${TARGET}
+	rm -f *.o modules/*.o ${TARGET}
 
+install:
+	cp -f dwm_status_bar /usr/local/bin
+	chmod 755 /usr/local/bin/dwm_status_bar
+
+uninstall:
+	rm -f /usr/local/bin/dwm_status_bar

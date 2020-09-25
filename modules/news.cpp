@@ -1,16 +1,19 @@
+#include "news.hpp"
+
 #include <cstdio>
 #include <fmt/core.h>
 #include <string>
 
-#include "news.hpp"
+News::News(int update_interval, int signal, bool has_event_handler, bool needs_internet)
+    : Item(update_interval, signal, has_event_handler, needs_internet) {}
 
-int SetNews(Item* news)
+int News::SetValue()
 {
     FILE* fp = popen("newsboat -x print-unread", "r");
 	if (fp == nullptr)
 	{
-        news->_is_active = false;
-		return;
+        is_active_ = false;
+		return 1;
 	}
 
 	int num_of_news = 0;
@@ -19,19 +22,19 @@ int SetNews(Item* news)
 
 	pclose(fp);
 
-    std::string old_value = news->_value;
+    std::string old_value = value_;
 
     if (num_of_news == 0)
     {
-        news->_is_active = false;
+        is_active_ = false;
     }
 
     else
     {
-        news->_value = fmt::format("{}", num_of_news);
+        value_ = fmt::format("📰 {}", num_of_news);
 
-        news->_is_active = true;
+        is_active_ = true;
     }
 
-    return news->_value != old_value;
+    return value_ != old_value;
 }

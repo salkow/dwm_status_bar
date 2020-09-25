@@ -3,6 +3,11 @@
 
 #include "../item.hpp"
 
-int SetUpdates(Item* updates);
+class Updates : public Item
+{
+public:
+    Updates(int update_interval, int signal, bool has_event_handler, bool needs_internet);
+    int SetValue();
+};
 
 #endif // __UPDATES_H__

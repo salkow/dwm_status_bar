@@ -1,16 +1,19 @@
+#include "updates.hpp"
+
 #include <cstdio>
 #include <fmt/core.h>
 #include <string>
 
-#include "updates.hpp"
+Updates::Updates(int update_interval, int signal, bool has_event_handler, bool needs_internet)
+    : Item(update_interval, signal, has_event_handler, needs_internet) {}
 
-int SetUpdates(Item* updates)
+int Updates::SetValue()
 {
     FILE* fp = popen("checkupdates", "r");
 	if (fp == nullptr)
 	{
-		updates->_is_active = false;
-		return;
+		is_active_ = false;
+		return 1;
 	}
 
 	char ch;
@@ -27,19 +30,19 @@ int SetUpdates(Item* updates)
 
 	pclose(fp);
 
-	std::string old_value = updates->_value;
+	std::string old_value = value_;
 
 	if (num_of_updates == 0)
 	{
-		updates->_is_active = false;
+		is_active_ = false;
 	}
 
 	else
 	{
-		updates->_value = fmt::format(" {}", num_of_updates);
+		value_ = fmt::format("📥 {}", num_of_updates);
 
-		updates->_is_active = false;
+		is_active_ = true;
 	}
 
-	return updates->_value != old_value;
+	return value_ != old_value;
 }

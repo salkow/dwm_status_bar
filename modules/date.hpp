@@ -3,8 +3,15 @@
 
 #include "../item.hpp"
 
-void GetDay(int id, char* day);
-int SetDate(Item* date);
-void GetMonth(int id, char* month);
+class Date : public Item
+{
+public:
+    Date(int update_interval, int signal, bool has_event_handler, bool needs_internet);
+    int SetValue();
+
+private:
+    void GetDay(int id, char* day);
+    void GetMonth(int id, char* month);
+};
 
 #endif // __DATE_H__

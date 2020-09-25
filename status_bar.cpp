@@ -1,85 +1,159 @@
+#include "status_bar.hpp"
+
 #include <sstream>
+#include <exception>
 #include <unistd.h>
 #include <X11/Xlib.h>
-
-#include "status_bar.hpp"
-#include "config.hpp"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <cstdio>
+#include <fcntl.h>
+#include <iostream>
 
 StatusBar::StatusBar()
 {
-	_num_of_items = sizeof(status_bar_items_conf) / sizeof(ConfItem);
+	is_running_ = true;
 
-	_items = new Item[_num_of_items];	
+	CreateItems();
 
-	for (int i = 0; i < _num_of_items; i++)
+	read_fifo_thread_ = std::thread(&StatusBar::ReadFifo, this);
+
+    for (auto i = items_.begin(); i != items_.end(); ++i) 
 	{
-		_items[i] = Item(status_bar_items_conf[i].icon,
-						status_bar_items_conf[i].update_interval,
-						status_bar_items_conf[i].signal,
-						status_bar_items_conf[i].SetValue);
-
-		// We need this, to support items with no update period.
-		if (_items[i]._update_interval == 0)
+		if ((*i)->default_update_interval_ == 0)
 		{
-			_items[i]._update_interval = -1;
+			(*i)->update_interval_ = -1;
 		}
 
-        else
-        {
+		else
+		{
 			// 0, to update immediately when it starts.
-			_items[i]._update_interval = 0;
-        }
-	}	
+			(*i)->update_interval_ = 0;
+		}
+
+		if ((*i)->has_event_handler_ == true)
+		{
+			std::thread event_handler(&Item::UpdateWhenEvent, (*i));
+			event_handler.detach();
+
+			// event_threads_.push_back(std::move(event_handler));
+		}
+	}
+}
+
+StatusBar::~StatusBar()
+{
+	read_fifo_thread_.join();
+
+    for (auto i = items_.begin(); i != items_.end(); ++i) 
+	{
+		delete (*i);
+	}
 }
 
 void StatusBar::SetRoot()
 {
+	root_mutex_.lock();
+
 	Display* display = XOpenDisplay(NULL);
 
 	int screen = DefaultScreen(display);
 	Window root = RootWindow(display, screen);
-	XStoreName(display, root, _status_bar_str.c_str());
+	XStoreName(display, root, status_bar_str_.c_str());
+
 	XCloseDisplay(display);
+
+	root_mutex_.unlock();
 }
 
 void StatusBar::SetValue()
 {
 	std::ostringstream status_bar_stream;
 
-	for (int i = 0; i < _num_of_items; i++)
+    for (auto i = items_.begin(); i != items_.end(); ++i) 
 	{
-		if (_items[i]._is_active == 1)
+		if ((*i)->is_active_ == 1)
 		{
-			status_bar_stream << ' ' << _items[i]._icon << _items[i]._value << " |";
+			status_bar_stream << ' ' << (*i)->value_ << " " << delim_character_;
 		}
 	}
 
 	// Remove the last | character.
-	_status_bar_str = status_bar_stream.str();
-	_status_bar_str.pop_back();
+	status_bar_str_ = status_bar_stream.str();
+	status_bar_str_.pop_back();
 }
 
 void StatusBar::Start()
 {
-	while (1)
+	while (is_running_)
 	{
-		for (int i = 0; i < _num_of_items; i++)
-		{
-			if (_items[i]._update_interval != -1)
-			{
-				_items[i]._update_interval -= UPDATE_INTERVAL;	
+		int has_changed = 0;
 
-				if (_items[i]._update_interval <= 0)
+    	for (auto i = items_.begin(); i != items_.end(); ++i) 
+		{
+			if ((*i)->update_interval_ != -1)
+			{
+				(*i)->update_interval_ -= update_interval_;	
+
+				if ((*i)->update_interval_ <= 0)
 				{
-					_items[i]._SetValue(&(_items[i]));
-					_items[i]._update_interval = status_bar_items_conf[i].update_interval;
+					has_changed += (*i)->SetValue();
+					(*i)->update_interval_ = (*i)->default_update_interval_;
 				}
 			}
 		}
 
-		SetValue();
-		SetRoot();
+		if (has_changed)
+		{
+			SetValue();
+			SetRoot();
+		}
 
-		sleep(UPDATE_INTERVAL);
+		sleep(update_interval_);
+	}
+}
+
+void StatusBar::ReadFifo()
+{
+	int my_fd;
+	char my_fifo[] = "/home/salkow/Projects/dwm_status_bar/update_fifo";
+
+	mkfifo(my_fifo, 0666);
+
+	char signal[2];
+
+	while (is_running_)
+	{
+		my_fd = open(my_fifo, O_RDONLY);
+
+		read(my_fd, &signal, 2);
+
+		// Convert char to int.
+		int signal_int = atoi(signal);
+
+    	for (auto i = items_.begin(); i != items_.end(); ++i) 
+		{
+			if ((*i)->signal_ == signal_int)
+			{
+				bool changed = (*i)->SetValue();
+
+				if (changed)
+				{
+					SetValue();
+
+					SetRoot();
+				}
+
+				break;
+			}
+		}
+
+		// Terminate signal.		
+		if (signal_int == 0)
+		{
+			is_running_ = false;
+		}
+
+		close(my_fd);
 	}
 }
