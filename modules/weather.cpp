@@ -10,7 +10,7 @@
 using std::string;
 using std::ostringstream;
 
-char URL[] = "https://wttr.in/levadia+greece?format=j1";
+char URL[] = "https://wttr.in/athens+greece?format=j1";
 char DOWNLOAD_LOCATION[] = "/tmp/weather.json";
 
 

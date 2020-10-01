@@ -1,7 +1,7 @@
 CPPFLAGS := -Wall -Wextra -pedantic -Wshadow -Wpointer-arith -Wcast-align \
             -Wwrite-strings -Wmissing-declarations \
             -Wredundant-decls -Winline \
-			-Wuninitialized -pthread -O0 -ggdb
+			-Wuninitialized -pthread -O0 -g
 
 CC = g++
 LIBS = -lX11 -lfmt -lasound -lxkbfile -lcurl -ljsoncpp
