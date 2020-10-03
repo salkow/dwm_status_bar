@@ -76,9 +76,8 @@ void KeyboardLanguage::UpdateWhenEvent()
 		WaitEvent(dis);
 
 		// Signal application to update the keyboard language.
-		int fd = open("/home/salkow/Projects/dwm_status_bar/update_fifo", O_WRONLY);
+		int fd = open("/home/salkow/Projects/dwm_status_bar/update_fifo", O_WRONLY | O_NONBLOCK);
 		write(fd, "04", 2);
-
 		close(fd);
 	}
 

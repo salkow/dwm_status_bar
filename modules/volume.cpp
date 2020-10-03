@@ -1,6 +1,5 @@
 #include "volume.hpp"
 
-#include "alsa/asoundlib.h"
 #include "fmt/core.h"
 #include "string"
 
@@ -16,16 +15,13 @@ int Volume::SetValue()
 	snd_mixer_selem_id_t *sid;
 	snd_mixer_elem_t *elem ;
 
-	char device[] = "default";
-	char selem_name[] = "Master";
-
 	if (snd_mixer_open(&h_mixer, 1) < 0)
     {
 		is_active_ = false;
         return 0;
     }
 
-	if (snd_mixer_attach(h_mixer, device) < 0)
+	if (snd_mixer_attach(h_mixer, DEVICE) < 0)
     {
 		is_active_ = false;
         return 0;
@@ -45,7 +41,7 @@ int Volume::SetValue()
 
 	snd_mixer_selem_id_alloca(&sid);
 	snd_mixer_selem_id_set_index(sid, 0);
-	snd_mixer_selem_id_set_name(sid, selem_name);
+	snd_mixer_selem_id_set_name(sid, SELEM_NAME);
 
 	if ((elem = snd_mixer_find_selem(h_mixer, sid)) == NULL)
     {
@@ -100,7 +96,145 @@ int Volume::SetValue()
         }
 
         value_ = fmt::format("{} {}%", vol_icon, vol);
+        value_ = fmt::format("{} {}%", vol_icon, vol);
     }
 
     return value_ != old_value;
+}
+
+void Volume::UpdateWhenEvent()
+{
+    while(MonitorNative(DEVICE) == 1)
+	{
+		// Signal application to update the volume.
+		int fd = open("/home/salkow/Projects/dwm_status_bar/update_fifo", O_WRONLY | O_NONBLOCK);
+	    write(fd, "06", 2);
+	    close(fd);
+    }
+
+    is_active_ = 0;
+}
+
+int Volume::MonitorNative(char const *name) 
+{
+    snd_ctl_t *ctls[MAX_CARDS];
+    int ncards = 0;
+    int i, err = 0;
+
+    if (!name) 
+	{
+        int card = -1;
+
+        while (snd_card_next(&card) >= 0 && card >= 0) 
+		{
+            char cardname[16];
+            if (ncards >= MAX_CARDS) 
+			{
+                // fprintf(stderr, "alsactl: too many cards\n");
+                CloseAll(ctls, ncards);
+                // return -E2BIG;
+                return 0;
+            }
+
+            sprintf(cardname, "hw:%d", card);
+            err = OpenCtl(cardname, &ctls[ncards]);
+
+            if (err < 0) 
+			{
+                CloseAll(ctls, ncards);
+                return err;
+            }
+
+            ncards++;
+        }
+    } 
+
+	else 
+	{
+        err = OpenCtl(name, &ctls[0]);
+        if (err < 0) 
+		{
+            CloseAll(ctls, ncards);
+            return err;
+        }
+
+        ncards++;
+    }
+
+	while (ncards > 0)
+	{
+        pollfd* fds = new pollfd[ncards];
+
+        for (i = 0; i < ncards; i++) 
+		{
+            snd_ctl_poll_descriptors(ctls[i], &fds[i], 1);
+        }
+
+        err = poll(fds, ncards, -1);
+        if (err <= 0) {
+            err = 0;
+            break;
+        }
+
+        for (i = 0; i < ncards; i++) 
+		{
+            unsigned short revents;
+            snd_ctl_poll_descriptors_revents(ctls[i], &fds[i], 1, &revents);
+            if (revents & POLLIN) 
+			{
+                snd_ctl_event_t *event;
+                snd_ctl_event_alloca(&event);
+
+                if (snd_ctl_read(ctls[i], event) < 0) 
+				{
+                    continue;
+                }
+
+                if (snd_ctl_event_get_type(event) != SND_CTL_EVENT_ELEM) 
+				{
+                    continue;
+                }
+
+                unsigned int mask = snd_ctl_event_elem_get_mask(event);
+                if (mask & SND_CTL_EVENT_MASK_VALUE) {
+                    CloseAll(ctls, ncards);
+                    return 1;
+                }
+            }
+        }
+    }
+
+    CloseAll(ctls, ncards);
+    return 0;
+}
+
+int Volume::OpenCtl(const char *name, snd_ctl_t **ctlp) 
+{
+    snd_ctl_t *ctl;
+
+    int err = snd_ctl_open(&ctl, name, SND_CTL_READONLY);
+    if (err < 0) 
+	{
+        // fprintf(stderr, "Cannot open ctl %s\n", name);
+        return err;
+    }
+
+    err = snd_ctl_subscribe_events(ctl, 1);
+    if (err < 0) 
+	{
+        // fprintf(stderr, "Cannot open subscribe events to ctl %s\n", name);
+        snd_ctl_close(ctl);
+        return err;
+    }
+
+    *ctlp = ctl;
+    return 0;
+}
+
+void Volume::CloseAll(snd_ctl_t* ctls[], int ncards) 
+{
+    for (ncards -= 1; ncards >= 0; --ncards) 
+	{
+        snd_ctl_close(ctls[ncards]);
+    }
 }

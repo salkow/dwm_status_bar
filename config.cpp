@@ -20,7 +20,7 @@ void StatusBar::CreateItems()
 	items_.push_back(new Temp			 (60, 3, 0, 0));
 	items_.push_back(new KeyboardLanguage(3600, 4, 1, 0));
 	items_.push_back(new Weather		 (3600, 5, 0, 0));
-	items_.push_back(new Volume			 (3600, 6, 0, 0));
+	items_.push_back(new Volume			 (3600, 6, 1, 0));
 	items_.push_back(new Date			 (60, 7, 0, 0));
 
 	items_.shrink_to_fit();

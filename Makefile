@@ -49,7 +49,7 @@ weather.o: modules/weather.cpp modules/weather.hpp
 clean:
 	rm -f *.o modules/*.o ${TARGET}
 
-install:
+install: ${TARGET}
 	cp -f dwm_status_bar /usr/local/bin
 	chmod 755 /usr/local/bin/dwm_status_bar
 
