@@ -11,7 +11,8 @@ TODO:
 - [ ] Cleanup Makefile.
 - [ ] Add option to specify location in weather module. 
 - [ ] List dependencies in README.
-- [ ] Add mpd module.
+- [x] Add mpd module.
+- [x] Add mpd event.
 - [ ] Make each module in the statusbar, clickable.
 - [ ] Make a patch for dwm to notify statusbar when something has been clicked.
 - [ ] Maybe make the modules patches.
@@ -22,4 +23,7 @@ For the keyboard_language module I used code from https://github.com/grwlf/xkb-s
 I modified it, removing some stuff, to only use what was needed.
 
 For the volume module I used code from:
-https://stackoverflow.com/questions/34936783/watch-for-volume-changes-in-alsa-pulseaudio
+https://git.alsa-project.org/?p=alsa-utils.git;a=blob;f=alsactl/monitor.c;hb=HEAD
+
+For the mpd module I used code from:
+https://github.com/MusicPlayerDaemon/mpc

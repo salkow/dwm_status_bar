@@ -4,7 +4,7 @@ CPPFLAGS := -Wall -Wextra -pedantic -Wshadow -Wpointer-arith -Wcast-align \
 			-Wuninitialized -pthread -O0 -g
 
 CC = g++
-LIBS = -lX11 -lfmt -lasound -lxkbfile -lcurl -ljsoncpp
+LIBS = -lX11 -lfmt -lasound -lxkbfile -lcurl -ljsoncpp -lmpdclient
 
 SRCS = $(wildcard *.cpp) $(wildcard modules/*.cpp)
 
@@ -45,6 +45,9 @@ keyboard_language.o: modules/keyboard_language.cpp modules/keyboard_language.hpp
 
 weather.o: modules/weather.cpp modules/weather.hpp
 	$(CC) $(CPPFLAGS) -c modules/weather.cpp 
+
+mpd.o: modules/mpd.cpp modules/mpd.hpp
+	$(CC) $(CPPFLAGS) -c modules/mpd.cpp 
 
 clean:
 	rm -f *.o modules/*.o ${TARGET}
