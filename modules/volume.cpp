@@ -3,8 +3,9 @@
 #include "fmt/core.h"
 #include "string"
 
-Volume::Volume(int update_interval, int signal, bool has_event_handler, bool needs_internet)
-    : Item(update_interval, signal, has_event_handler, needs_internet) {}
+Volume::Volume(int update_interval, int signal, bool has_event_handler,
+               bool needs_internet, bool has_clicked)
+    : Item(update_interval, signal, has_event_handler, needs_internet, has_clicked) {}
 
 int Volume::SetValue()
 {
@@ -104,12 +105,15 @@ int Volume::SetValue()
 
 void Volume::UpdateWhenEvent()
 {
+    char status_bar_signal[4];
+    snprintf(status_bar_signal, 4, "%03d", signal_);
+
     while(MonitorNative(DEVICE) == 1)
 	{
 		// Signal application to update the volume.
 		int fd = open("/home/salkow/Projects/dwm_status_bar/update_fifo", O_WRONLY | O_NONBLOCK);
-	    write(fd, "06", 2);
-	    close(fd);
+        write(fd, status_bar_signal, 4);
+        close(fd);
     }
 
     is_active_ = 0;
@@ -236,5 +240,28 @@ void Volume::CloseAll(snd_ctl_t* ctls[], int ncards)
     for (ncards -= 1; ncards >= 0; --ncards) 
 	{
         snd_ctl_close(ctls[ncards]);
+    }
+}
+
+void Volume::Clicked(int button)
+{
+    if (button == 1)
+    {
+        system("st -e alsamixer &");
+    }
+
+    else if (button == 2)
+    {
+        system("setsid -f amixer set Master toggle >/dev/null 2>&1");
+    }
+
+    else if (button == 4)
+    {
+        system("setsid -f amixer set Master 5%+ >/dev/null 2>&1");
+    }
+
+    else if (button == 5)
+    {
+        system("setsid -f amixer set Master 5%- >/dev/null 2>&1");
     }
 }

@@ -120,28 +120,45 @@ void StatusBar::ReadFifo()
 
 	mkfifo(my_fifo, 0666);
 
-	char signal[2];
+	char signal[4];
+
+	// TODO: Remove signal option and do it automatically.
+	// Delete for loop and just go where you want.
+	// TODO: Create a for loop just for signal_origin != 0.
+	// In that we don't care about items who have _is_active = 0.
+	// Add i to signal_int and you can find the module that you want.
+	// you can stop the loop early.
 
 	while (is_running_)
 	{
 		my_fd = open(my_fifo, O_RDONLY);
 
-		read(my_fd, &signal, 2);
+		read(my_fd, &signal, 4);
+
+		int signal_origin = signal[0] - '0';
 
 		// Convert char to int.
-		int signal_int = atoi(signal);
+		int signal_int = atoi(&(signal[1]));
 
-    	for (auto i = items_.begin(); i != items_.end(); ++i) 
+		for (auto i = items_.begin(); i != items_.end(); ++i) 
 		{
 			if ((*i)->signal_ == signal_int)
 			{
-				bool changed = (*i)->SetValue();
-
-				if (changed)
+				if (signal_origin == 0)
 				{
-					SetValue();
+					bool changed = (*i)->SetValue();
 
-					SetRoot();
+					if (changed)
+					{
+						SetValue();
+
+						SetRoot();
+					}
+				}
+
+				else if ((*i)->has_clicked_ == true)
+				{
+					(*i)->Clicked(signal_origin);
 				}
 
 				break;
@@ -149,10 +166,10 @@ void StatusBar::ReadFifo()
 		}
 
 		// Terminate signal.		
-		if (signal_int == 0)
-		{
-			is_running_ = false;
-		}
+		/* if (signal_int == 0) */
+		/* { */
+		/* 	is_running_ = false; */
+		/* } */
 
 		close(my_fd);
 	}

@@ -8,7 +8,8 @@
 class Mpd : public Item
 {
 public:
-    Mpd(int update_interval, int signal, bool has_event_handler, bool needs_internet);
+    Mpd(int update_interval, int signal, bool has_event_handler, 
+		bool needs_internet, bool has_clicked);
     int SetValue();
     void UpdateWhenEvent();
 

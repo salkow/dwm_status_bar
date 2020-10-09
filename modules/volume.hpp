@@ -12,9 +12,12 @@
 class Volume : public Item
 {
 public:
-    Volume(int update_interval, int signal, bool has_event_handler, bool needs_internet);
+    Volume(int update_interval, int signal, bool has_event_handler,
+           bool needs_internet, bool has_clicked);
     void UpdateWhenEvent();
     int SetValue();
+    void Clicked(int button);
+
 private:
     int MonitorNative(char const *name);
     int OpenCtl(const char *name, snd_ctl_t **ctlp);

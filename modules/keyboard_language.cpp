@@ -8,9 +8,9 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-KeyboardLanguage::KeyboardLanguage(int update_interval, int signal, 
-								   bool has_event_handler, bool needs_internet)
-	: Item(update_interval, signal, has_event_handler, needs_internet), 
+KeyboardLanguage::KeyboardLanguage(int update_interval, int signal, bool has_event_handler, 
+								   bool needs_internet, bool has_clicked)
+	: Item(update_interval, signal, has_event_handler, needs_internet, has_clicked), 
 	  display_(0), device_id_(XkbUseCoreKbd), kbd_desc_ptr_(0) {}
 
 KeyboardLanguage::~KeyboardLanguage()
@@ -70,6 +70,9 @@ void KeyboardLanguage::UpdateWhenEvent()
 	Display* dis = 0;
 
 	OpenDisplay(&dis);
+	
+	char status_bar_signal[4];
+	snprintf(status_bar_signal, 4, "%03d", signal_);
 
 	while (true)
 	{
@@ -77,7 +80,8 @@ void KeyboardLanguage::UpdateWhenEvent()
 
 		// Signal application to update the keyboard language.
 		int fd = open("/home/salkow/Projects/dwm_status_bar/update_fifo", O_WRONLY | O_NONBLOCK);
-		write(fd, "04", 2);
+
+		write(fd, status_bar_signal, 3);
 		close(fd);
 	}
 

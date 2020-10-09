@@ -4,8 +4,9 @@
 #include <fmt/core.h>
 #include <string>
 
-Updates::Updates(int update_interval, int signal, bool has_event_handler, bool needs_internet)
-    : Item(update_interval, signal, has_event_handler, needs_internet) {}
+Updates::Updates(int update_interval, int signal, bool has_event_handler, 
+				 bool needs_internet, bool has_clicked)
+    : Item(update_interval, signal, has_event_handler, needs_internet, has_clicked) {}
 
 int Updates::SetValue()
 {

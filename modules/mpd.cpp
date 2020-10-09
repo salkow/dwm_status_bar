@@ -3,8 +3,9 @@
 #include <fmt/core.h>
 #include <string>
 
-Mpd::Mpd(int update_interval, int signal, bool has_event_handler, bool needs_internet)
-    : Item(update_interval, signal, has_event_handler, needs_internet) {}
+Mpd::Mpd(int update_interval, int signal, bool has_event_handler, 
+		 bool needs_internet, bool has_clicked)
+    : Item(update_interval, signal, has_event_handler, needs_internet, has_clicked) {}
 
 int Mpd::SetValue()
 {
@@ -81,13 +82,16 @@ void Mpd::UpdateWhenEvent()
 {
 	struct mpd_connection* con = mpd_connection_new(NULL, 0, 30000);
 
+	char status_bar_signal[4];
+	snprintf(status_bar_signal, 4, "%03d", signal_);
+
     while(true)    
     {
 	    mpd_run_idle_mask(con, MPD_IDLE_PLAYER);
 
 		// Signal application to update the volume.
 		int fd = open("/home/salkow/Projects/dwm_status_bar/update_fifo", O_WRONLY | O_NONBLOCK);
-	    write(fd, "08", 2);
+	    write(fd, status_bar_signal, 3);
 	    close(fd);
     }
 

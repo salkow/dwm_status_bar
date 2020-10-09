@@ -6,7 +6,8 @@
 class News : public Item
 {
 public:
-    News(int update_interval, int signal, bool has_event_handler, bool needs_internet);
+    News(int update_interval, int signal, bool has_event_handler, 
+		 bool needs_internet, bool has_clicked);
     int SetValue();
 };
 
