@@ -12,45 +12,45 @@ OBJ = $(SRCS:.cpp=.o)
 
 TARGET = dwm_status_bar
 
-${TARGET}: ${OBJ} ${OBJJ}
+${TARGET}: ${OBJ}
 	${CC} $(CPPFLAGS) ${LIBS} ${OBJ} -o ${TARGET}
 
 main.o: main.cpp status_bar.o util.o
-	${CC} $(CPPFLAGS) -c main.cpp
+	${CC} -c main.cpp
 
 status_bar.o: status_bar.cpp status_bar.hpp item.o
-	${CC} $(CPPFLAGS) -c status_bar.cpp
+	${CC} -c status_bar.cpp
 
 item.o: item.cpp item.hpp
-	${CC} ${CPPFLAGS} -c item.cpp
+	${CC} -c item.cpp
 
 util.o: util.cpp util.hpp
-	${CC} ${CPPFLAGS} -c util.cpp
+	${CC} -c util.cpp
 
 # Modules
 date.o: modules/date.cpp modules/date.hpp item.hpp
-	$(CC) $(CPPFLAGS) -c modules/date.cpp
+	$(CC) -c modules/date.cpp
 
 temp.o: modules/temp.cpp modules/temp.hpp item.hpp
-	$(CC) $(CPPFLAGS) -c modules/temp.cpp
+	$(CC) -c modules/temp.cpp
 
 updates.o: modules/updates.cpp modules/updates.hpp item.hpp
-	$(CC) $(CPPFLAGS) -c modules/updates.cpp
+	$(CC) -c modules/updates.cpp
 
 news.o: modules/news.cpp modules/news.hpp item.hpp
-	$(CC) $(CPPFLAGS) -c modules/news.cpp
+	$(CC) -c modules/news.cpp
 
 volume.o: modules/volume.cpp modules/volume.hpp item.hpp
-	$(CC) $(CPPFLAGS) -c modules/volume.cpp
+	$(CC) -c modules/volume.cpp
 
 keyboard_language.o: modules/keyboard_language.cpp modules/keyboard_language.hpp
-	$(CC) $(CPPFLAGS) -c modules/keyboard_language.cpp 
+	$(CC) -c modules/keyboard_language.cpp 
 
 weather.o: modules/weather.cpp modules/weather.hpp
-	$(CC) $(CPPFLAGS) -c modules/weather.cpp 
+	$(CC) -c modules/weather.cpp 
 
 mpd.o: modules/mpd.cpp modules/mpd.hpp
-	$(CC) $(CPPFLAGS) -c modules/mpd.cpp 
+	$(CC) -c modules/mpd.cpp 
 
 clean:
 	rm -f *.o modules/*.o ${TARGET}
