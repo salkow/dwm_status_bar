@@ -8,7 +8,7 @@ TODO:
 - [x] Add volume event.
 - [ ] Create program for signaling.
 - [ ] Add internet module.
-- [ ] Cleanup Makefile.
+- [x] Cleanup Makefile.
 - [ ] Add option to specify location in weather module. 
 - [ ] List dependencies in README.
 - [x] Add mpd module.
