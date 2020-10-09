@@ -4,7 +4,7 @@ TODO:
 - [ ] List all features in README.
 - [ ] Move all code in src folder.
 - [ ] Add option for the location of the fifo file.
-- [ ] Fix bug where programs exits when wttr.in isn't available in the weather module.
+- [ ] Fix bug where program exits when wttr.in isn't available in the weather module.
 - [x] Add volume event.
 - [ ] Create program for signaling.
 - [ ] Add internet module.
