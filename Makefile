@@ -15,7 +15,7 @@ TARGET = dwm_status_bar
 ${TARGET}: ${OBJ} ${OBJJ}
 	${CC} $(CPPFLAGS) ${LIBS} ${OBJ} -o ${TARGET}
 
-main.o: main.cpp status_bar.hpp
+main.o: main.cpp status_bar.o util.o
 	${CC} $(CPPFLAGS) -c main.cpp
 
 status_bar.o: status_bar.cpp status_bar.hpp item.o
@@ -23,6 +23,9 @@ status_bar.o: status_bar.cpp status_bar.hpp item.o
 
 item.o: item.cpp item.hpp
 	${CC} ${CPPFLAGS} -c item.cpp
+
+util.o: util.cpp util.hpp
+	${CC} ${CPPFLAGS} -c util.cpp
 
 # Modules
 date.o: modules/date.cpp modules/date.hpp item.hpp
