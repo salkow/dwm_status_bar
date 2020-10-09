@@ -3,9 +3,9 @@
 #include "fmt/core.h"
 #include "string"
 
-Volume::Volume(int update_interval, int signal, bool has_event_handler,
-               bool needs_internet, bool has_clicked)
-    : Item(update_interval, signal, has_event_handler, needs_internet, has_clicked) {}
+Volume::Volume(int update_interval, bool has_event_handler, bool needs_internet,
+               bool has_clicked)
+    : Item(update_interval, has_event_handler, needs_internet, has_clicked) {}
 
 int Volume::SetValue()
 {
@@ -247,7 +247,7 @@ void Volume::Clicked(int button)
 {
     if (button == 1)
     {
-        system("st -e alsamixer &");
+        system("setsid -f st -e alsamixer >/dev/null 2>&1");
     }
 
     else if (button == 2)

@@ -8,9 +8,9 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-KeyboardLanguage::KeyboardLanguage(int update_interval, int signal, bool has_event_handler, 
-								   bool needs_internet, bool has_clicked)
-	: Item(update_interval, signal, has_event_handler, needs_internet, has_clicked), 
+KeyboardLanguage::KeyboardLanguage(int update_interval, bool has_event_handler, bool needs_internet,
+								   bool has_clicked)
+	: Item(update_interval, has_event_handler, needs_internet, has_clicked),
 	  display_(0), device_id_(XkbUseCoreKbd), kbd_desc_ptr_(0) {}
 
 KeyboardLanguage::~KeyboardLanguage()
@@ -149,4 +149,12 @@ int KeyboardLanguage::GetGroup() const
 	XkbGetState(display_, device_id_, &xkb_state);
 
 	return static_cast<int>(xkb_state.group);
+}
+
+void KeyboardLanguage::Clicked(int button)
+{
+	if (button == 4 || button == 5)
+	{
+		system("setsid -f xkb-switch -n >/dev/null 2>&1");
+	}
 }

@@ -3,9 +3,9 @@
 #include <fmt/core.h>
 #include <string>
 
-Mpd::Mpd(int update_interval, int signal, bool has_event_handler, 
-		 bool needs_internet, bool has_clicked)
-    : Item(update_interval, signal, has_event_handler, needs_internet, has_clicked) {}
+Mpd::Mpd(int update_interval, bool has_event_handler, bool needs_internet,
+		 bool has_clicked)
+	: Item(update_interval, has_event_handler, needs_internet, has_clicked) {}
 
 int Mpd::SetValue()
 {
@@ -85,7 +85,7 @@ void Mpd::UpdateWhenEvent()
 	char status_bar_signal[4];
 	snprintf(status_bar_signal, 4, "%03d", signal_);
 
-    while(true)    
+	while(true)    
     {
 	    mpd_run_idle_mask(con, MPD_IDLE_PLAYER);
 
@@ -98,4 +98,27 @@ void Mpd::UpdateWhenEvent()
     mpd_connection_free(con);
 
     is_active_ = 0;
+}
+
+void Mpd::Clicked(int button)
+{
+	if (button == 1)
+	{
+		system("setsid -f st -e ncmpcpp >/dev/null 2>&1");
+	}
+
+	else if (button == 2)
+	{
+		system("setsid -f mpc toggle >/dev/null 2>&1");
+	}
+
+	else if (button == 4)
+	{
+		system("setsid -f mpc next >/dev/null 2>&1");
+	}
+
+	else if (button == 5)
+	{
+		system("setsid -f mpc prev >/dev/null 2>&1");
+	}
 }

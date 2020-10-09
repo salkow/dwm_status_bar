@@ -14,7 +14,7 @@ public:
     virtual void UpdateWhenEvent();
     virtual void Clicked(int button);
 
-    Item(int update_interval, int signal, bool has_event_handler, bool needs_internet, bool has_clicked);
+    Item(int update_interval, bool has_event_handler, bool needs_internet, bool has_clicked);
     virtual ~Item();
 
     int update_interval_;

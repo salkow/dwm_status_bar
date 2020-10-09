@@ -21,12 +21,13 @@ typedef std::pair<std::string,std::string> LayoutVariantStrings;
 class KeyboardLanguage : public Item
 {
 public:
-	KeyboardLanguage(int update_interval, int signal, bool has_event_handler, 
-					 bool needs_internet, bool has_clicked);
+	KeyboardLanguage(int update_interval, bool has_event_handler, bool needs_internet,
+					 bool has_clicked);
 	~KeyboardLanguage();
 	int SetValue();
 	void UpdateWhenEvent();
-	
+	void Clicked(int button);
+
 private:
 	Display* display_;
 	int device_id_;

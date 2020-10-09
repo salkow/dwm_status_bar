@@ -13,7 +13,7 @@ TODO:
 - [ ] List dependencies in README.
 - [x] Add mpd module.
 - [x] Add mpd event.
-- [ ] Make each module in the statusbar, clickable.
+- [x] Make each module in the statusbar, clickable.
 - [ ] Make a patch for dwm to notify statusbar when something has been clicked.
 - [ ] Maybe make the modules patches.
 - [ ] Prevent user from opening multiple instances of dwm_status_bar.

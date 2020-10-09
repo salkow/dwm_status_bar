@@ -4,9 +4,9 @@
 #include <fmt/core.h>
 #include <string>
 
-Updates::Updates(int update_interval, int signal, bool has_event_handler, 
-				 bool needs_internet, bool has_clicked)
-    : Item(update_interval, signal, has_event_handler, needs_internet, has_clicked) {}
+Updates::Updates(int update_interval, bool has_event_handler, bool needs_internet,
+				 bool has_clicked)
+	: Item(update_interval, has_event_handler, needs_internet, has_clicked) {}
 
 int Updates::SetValue()
 {
@@ -46,4 +46,12 @@ int Updates::SetValue()
 	}
 
 	return value_ != old_value;
+}
+
+void Updates::Clicked(int button)
+{
+	if (button == 1)
+	{
+		system("setsid -f st -e zsh -c 'yay -Syu && read -k' >/dev/null 2>&1");
+	}
 }

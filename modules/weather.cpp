@@ -13,9 +13,9 @@ using std::ostringstream;
 char URL[] = "https://wttr.in/athens+greece?format=j1";
 char DOWNLOAD_LOCATION[] = "/tmp/weather.json";
 
-Weather::Weather(int update_interval, int signal, bool has_event_handler,
-                 bool needs_internet, bool has_clicked)
-    : Item(update_interval, signal, has_event_handler, needs_internet, has_clicked) {}
+Weather::Weather(int update_interval, bool has_event_handler, bool needs_internet,
+                 bool has_clicked)
+    : Item(update_interval, has_event_handler, needs_internet, has_clicked) {}
 
 int Weather::SetValue()
 {
@@ -175,7 +175,6 @@ int Weather::GetMaxChanceOfRain(Json::Value &weather)
     }
 
     return max_chance;
-
 }
 
 string Weather::GetTemp(Json::Value &weather)
@@ -291,9 +290,10 @@ string Weather::GetWeatherCondition(Json::Value &weather)
     }
 }
 
-#include <stdio.h>
-
 void Weather::Clicked(int button)
 {
-	system("st -e zsh -c 'curl wttr.in 2>&1 && read -k'");
+    if (button == 1)
+    {
+        system("setsid -f st -e zsh -c 'curl wttr.in 2>&1 && read -k'");
+    }
 }

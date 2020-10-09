@@ -8,10 +8,11 @@
 class Mpd : public Item
 {
 public:
-    Mpd(int update_interval, int signal, bool has_event_handler, 
-		bool needs_internet, bool has_clicked);
-    int SetValue();
-    void UpdateWhenEvent();
+  Mpd(int update_interval, bool has_event_handler, bool needs_internet,
+      bool has_clicked);
+  int SetValue();
+  void UpdateWhenEvent();
+  void Clicked(int button);
 
 private:
 	struct mpd_connection* con_;

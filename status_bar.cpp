@@ -118,16 +118,11 @@ void StatusBar::ReadFifo()
 	int my_fd;
 	char my_fifo[] = "/home/salkow/Projects/dwm_status_bar/update_fifo";
 
+	remove(my_fifo);
+
 	mkfifo(my_fifo, 0666);
 
 	char signal[4];
-
-	// TODO: Remove signal option and do it automatically.
-	// Delete for loop and just go where you want.
-	// TODO: Create a for loop just for signal_origin != 0.
-	// In that we don't care about items who have _is_active = 0.
-	// Add i to signal_int and you can find the module that you want.
-	// you can stop the loop early.
 
 	while (is_running_)
 	{
@@ -140,36 +135,35 @@ void StatusBar::ReadFifo()
 		// Convert char to int.
 		int signal_int = atoi(&(signal[1]));
 
-		for (auto i = items_.begin(); i != items_.end(); ++i) 
+		if (signal_origin == 0)
 		{
-			if ((*i)->signal_ == signal_int)
+			bool changed = items_[signal_int]->SetValue();
+
+			if (changed)
 			{
-				if (signal_origin == 0)
-				{
-					bool changed = (*i)->SetValue();
-
-					if (changed)
-					{
-						SetValue();
-
-						SetRoot();
-					}
-				}
-
-				else if ((*i)->has_clicked_ == true)
-				{
-					(*i)->Clicked(signal_origin);
-				}
-
-				break;
+				SetValue();
+				SetRoot();
 			}
 		}
 
-		// Terminate signal.		
-		/* if (signal_int == 0) */
-		/* { */
-		/* 	is_running_ = false; */
-		/* } */
+		else
+		{
+			int pos = signal_int;
+
+			// We want to filter out the inactive items.
+			for (auto i = items_.begin(); i != items_.end(); ++i)
+			{
+				if ((*i)->is_active_ == true)
+				{
+					if (pos == 0 && (*i)->has_clicked_ == true)
+					{
+						(*i)->Clicked(signal_origin);
+					}
+
+					pos--;
+				}
+			}
+		}
 
 		close(my_fd);
 	}
