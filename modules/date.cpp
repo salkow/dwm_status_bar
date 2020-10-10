@@ -102,3 +102,11 @@ void Date::GetMonth(int id, char* month)
 		strcpy(month, "Dec"); break;
 	}
 }
+
+void Date::Clicked(int button)
+{
+	if (button == 1)
+	{
+		system("setsid -f st -e calcurse");
+	}
+}

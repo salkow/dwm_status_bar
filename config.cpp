@@ -23,7 +23,7 @@ void StatusBar::CreateItems()
 	items_.push_back(new KeyboardLanguage(3600, 1, 0, 1));
 	items_.push_back(new Weather(3600, 0, 0, 1));
 	items_.push_back(new Volume(3600, 1, 0, 1));
-	items_.push_back(new Date(60, 0, 0, 0));
+	items_.push_back(new Date(60, 0, 0, 1));
 
 	items_.shrink_to_fit();
 }
