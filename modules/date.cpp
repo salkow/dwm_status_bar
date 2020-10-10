@@ -107,6 +107,6 @@ void Date::Clicked(int button)
 {
 	if (button == 1)
 	{
-		system("setsid -f st -e calcurse");
+		system("setsid -f st -e calcurse >/dev/null 2>&1");
 	}
 }
