@@ -52,6 +52,6 @@ void Updates::Clicked(int button)
 {
 	if (button == 1)
 	{
-		system("setsid -f st -e zsh -c 'yay -Syu && read -k' >/dev/null 2>&1");
+		system("setsid -f st -t Updates -e zsh -c 'yay -Syu && zsh' >/dev/null 2>&1");
 	}
 }

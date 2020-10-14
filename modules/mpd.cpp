@@ -104,7 +104,7 @@ void Mpd::Clicked(int button)
 {
 	if (button == 1)
 	{
-		system("setsid -f st -e ncmpcpp >/dev/null 2>&1");
+		system("setsid -f st -t ncmpcpp -e zsh -c 'ncmpcpp && zsh' >/dev/null 2>&1");
 	}
 
 	else if (button == 2)

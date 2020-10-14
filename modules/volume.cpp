@@ -247,7 +247,7 @@ void Volume::Clicked(int button)
 {
     if (button == 1)
     {
-        system("setsid -f st -e alsamixer >/dev/null 2>&1");
+        system("setsid -f st -t alsamixer -e zsh -c 'alsamixer && zsh' >/dev/null 2>&1");
     }
 
     else if (button == 2)

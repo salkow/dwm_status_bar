@@ -67,14 +67,6 @@ void Task::Clicked(int button)
 {
     if (button == 1)
     {
-        system("setsid -f vit >/dev/null 2>&1");
-
-        // Signal application to update the number of unread news.
-        char status_bar_signal[4];
-        snprintf(status_bar_signal, 4, "%03d", signal_);
-
-        int fd = open("/home/salkow/Projects/dwm_status_bar/update_fifo", O_WRONLY | O_NONBLOCK);
-        write(fd, status_bar_signal, 4);
-        close(fd);
+        system("setsid -f st -t vit -e zsh -c 'vit && zsh' >/dev/null 2>&1");
     }
 }
