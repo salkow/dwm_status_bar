@@ -40,6 +40,8 @@ private:
 	int update_interval_;
 
 	char delim_character_;
+
+	char fifo_file_[256];
 };
 
 

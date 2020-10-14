@@ -116,17 +116,16 @@ void StatusBar::Start()
 void StatusBar::ReadFifo()
 {
 	int my_fd;
-	char my_fifo[] = "/home/salkow/Projects/dwm_status_bar/update_fifo";
 
-	remove(my_fifo);
+	remove(fifo_file_);
 
-	mkfifo(my_fifo, 0666);
+	mkfifo(fifo_file_, 0666);
 
 	char signal[4];
 
 	while (is_running_)
 	{
-		my_fd = open(my_fifo, O_RDONLY);
+		my_fd = open(fifo_file_, O_RDONLY);
 
 		read(my_fd, &signal, 4);
 

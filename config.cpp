@@ -14,6 +14,7 @@ void StatusBar::CreateItems()
 {
     update_interval_ = 10;
 	delim_character_ = '|';
+	strcpy(fifo_file_, "/home/salkow/Projects/dwm_status_bar/update_fifo");
 
 	// Update interval, has event handler, needs internet, has click event
 
