@@ -3,6 +3,9 @@
 #include <iostream>
 #include <json/value.h>
 
+char URL[] = "https://wttr.in/athens+greece?format=j1";
+char DOWNLOAD_LOCATION[] = "/tmp/weather.json";
+
 class Weather : public Item
 {
 public:

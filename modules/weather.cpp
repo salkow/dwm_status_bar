@@ -10,9 +10,6 @@
 using std::string;
 using std::ostringstream;
 
-char URL[] = "https://wttr.in/athens+greece?format=j1";
-char DOWNLOAD_LOCATION[] = "/tmp/weather.json";
-
 Weather::Weather(int update_interval, bool has_event_handler, bool needs_internet,
                  bool has_clicked)
     : Item(update_interval, has_event_handler, needs_internet, has_clicked) {}
@@ -21,7 +18,7 @@ int Weather::SetValue()
 {
     DownloadFile(URL, DOWNLOAD_LOCATION);
 
-    std::ifstream test_file("/tmp/weather.json", std::ifstream::binary);
+    std::ifstream test_file(DOWNLOAD_LOCATION, std::ifstream::binary);
 
     Json::Value weather;
     test_file >> weather;
@@ -260,6 +257,7 @@ string Weather::GetWeatherCondition(Json::Value &weather)
              weather_condition_str == "\"Moderate or heavy rain shower\""		||
              weather_condition_str == "\"Torrential rain shower\""				||
              weather_condition_str == "\"Light sleet showers\""					||
+             weather_condition_str == "\"Rain\""					            ||
              weather_condition_str == "\"Moderate or heavy sleet showers\""		 )
     {
         return string("🌧️");
