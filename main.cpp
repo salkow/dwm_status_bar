@@ -7,7 +7,10 @@ int main()
 {
 	if (IsAlreadyRunning())
 	{
-		std::cout << "Another instance is running\n";
+		std::cout << "Another instance is running.\n" << 
+					 "If you are sure that it is not, delete the file: /tmp/dwm_status_bar.pid.\n";
+
+
 		return 1;
 	}
 

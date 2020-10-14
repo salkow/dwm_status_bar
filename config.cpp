@@ -6,6 +6,7 @@
 #include "modules/weather.hpp"
 #include "modules/volume.hpp"
 #include "modules/date.hpp"
+#include "modules/task.hpp"
 
 #include "status_bar.hpp"
 
@@ -18,6 +19,7 @@ void StatusBar::CreateItems()
 
 	items_.push_back(new Mpd(3600, 1, 0, 1));
 	items_.push_back(new News(3600, 0, 0, 1));
+	items_.push_back(new Task(1800, 0, 0, 1));
 	// items_.push_back(new Updates(10, 0, 1));
 	items_.push_back(new Temp(60, 0, 0, 0));
 	items_.push_back(new KeyboardLanguage(3600, 1, 0, 1));

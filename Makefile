@@ -37,6 +37,9 @@ temp.o: modules/temp.cpp modules/temp.hpp item.hpp
 updates.o: modules/updates.cpp modules/updates.hpp item.hpp
 	$(CC) -c modules/updates.cpp
 
+task.o: modules/task.cpp modules/task.hpp item.hpp
+	$(CC) -c modules/task.cpp
+
 news.o: modules/news.cpp modules/news.hpp item.hpp
 	$(CC) -c modules/news.cpp
 
