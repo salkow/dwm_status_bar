@@ -27,9 +27,9 @@ int Task::GetTaskValue(const char *command)
 
 int Task::SetValue()
 {
-    int due_in_seven_days = GetTaskValue("task +DUE status:pending count 2>/dev/null");
-    int due_today = GetTaskValue("task +TODAY status:pending count 2>/dev/null");
-    int overdue = GetTaskValue("task +OVERDUE count 2>/dev/null");
+    int due_in_seven_days = GetTaskValue("task +DUE status:pending count");
+    int due_today = GetTaskValue("task +TODAY status:pending count");
+    int overdue = GetTaskValue("task +OVERDUE count");
 
     if (due_in_seven_days == -1 || due_today == -1 || overdue == -1)
     {
