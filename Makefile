@@ -18,7 +18,7 @@ ${TARGET}: ${OBJ}
 main.o: main.cpp status_bar.o util.o
 	${CC} -c main.cpp
 
-status_bar.o: status_bar.cpp status_bar.hpp item.o
+status_bar.o: status_bar.cpp status_bar.hpp item.o config.o
 	${CC} -c status_bar.cpp
 
 item.o: item.cpp item.hpp
@@ -26,6 +26,9 @@ item.o: item.cpp item.hpp
 
 util.o: util.cpp util.hpp
 	${CC} -c util.cpp
+
+config.o: config.cpp item.hpp
+	${CC} -c config.cpp
 
 # Modules
 date.o: modules/date.cpp modules/date.hpp item.hpp

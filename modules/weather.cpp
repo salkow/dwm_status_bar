@@ -52,7 +52,7 @@ static size_t WriteData(void* ptr, size_t size, size_t nmemb, void* stream)
     return written;
 }
 
-bool Weather::DownloadFile(char* url, char* location)
+bool Weather::DownloadFile(const char* url, const char* location)
 {
     CURLcode res = curl_global_init(CURL_GLOBAL_ALL);
     if(res) return 1;
