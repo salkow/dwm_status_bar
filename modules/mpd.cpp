@@ -94,7 +94,12 @@ void Mpd::UpdateWhenEvent()
 
 	while(true)    
     {
-	    mpd_run_idle_mask(con, MPD_IDLE_PLAYER);
+	    if (mpd_run_idle_mask(con, MPD_IDLE_PLAYER) == 0)
+		{
+			mpd_connection_free(con);
+			is_active_ = false;
+			return;
+		}	
 
 		// Signal application to update the volume.
 		int fd = open("/home/salkow/Projects/dwm_status_bar/update_fifo", O_WRONLY | O_NONBLOCK);
