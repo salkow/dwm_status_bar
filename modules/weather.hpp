@@ -12,8 +12,7 @@
 class Weather : public Item
 {
 public:
-    Weather(int update_interval, bool has_event_handler, bool needs_internet, 
-			bool has_clicked);
+    Weather(int update_interval, bool has_event_handler, bool has_clicked);
     int SetValue();
     void Clicked(int button);
 

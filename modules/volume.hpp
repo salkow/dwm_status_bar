@@ -12,8 +12,7 @@
 class Volume : public Item
 {
 public:
-    Volume(int update_interval, bool has_event_handler, bool needs_internet, 
-		   bool has_clicked);
+    Volume(int update_interval, bool has_event_handler, bool has_clicked);
     void UpdateWhenEvent();
     int SetValue();
     void Clicked(int button);

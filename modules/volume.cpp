@@ -3,9 +3,8 @@
 #include "fmt/core.h"
 #include "string"
 
-Volume::Volume(int update_interval, bool has_event_handler, bool needs_internet,
-               bool has_clicked)
-    : Item(update_interval, has_event_handler, needs_internet, has_clicked) {}
+Volume::Volume(int update_interval, bool has_event_handler, bool has_clicked)
+    : Item(update_interval, has_event_handler, has_clicked) {}
 
 int Volume::SetValue()
 {

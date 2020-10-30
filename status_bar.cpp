@@ -35,8 +35,6 @@ StatusBar::StatusBar()
 		{
 			std::thread event_handler(&Item::UpdateWhenEvent, (*i));
 			event_handler.detach();
-
-			// event_threads_.push_back(std::move(event_handler));
 		}
 	}
 }

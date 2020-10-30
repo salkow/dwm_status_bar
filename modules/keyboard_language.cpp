@@ -8,9 +8,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-KeyboardLanguage::KeyboardLanguage(int update_interval, bool has_event_handler, bool needs_internet,
-								   bool has_clicked)
-	: Item(update_interval, has_event_handler, needs_internet, has_clicked),
+KeyboardLanguage::KeyboardLanguage(int update_interval, bool has_event_handler, bool has_clicked)
+	: Item(update_interval, has_event_handler, has_clicked),
 	  display_(0), device_id_(XkbUseCoreKbd), kbd_desc_ptr_(0) {}
 
 KeyboardLanguage::~KeyboardLanguage()

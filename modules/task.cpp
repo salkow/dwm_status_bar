@@ -4,9 +4,8 @@
 #include <fmt/core.h>
 #include <string>
 
-Task::Task(int update_interval, bool has_event_handler, bool needs_internet,
-           bool has_clicked)
-    : Item(update_interval, has_event_handler, needs_internet, has_clicked) {}
+Task::Task(int update_interval, bool has_event_handler, bool has_clicked)
+    : Item(update_interval, has_event_handler, has_clicked) {}
 
 int Task::GetTaskValue(const char *command)
 {

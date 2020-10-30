@@ -6,8 +6,7 @@
 class Updates : public Item
 {
 public:
-    Updates(int update_interval, bool has_event_handler, bool needs_internet,
-            bool has_clicked);
+    Updates(int update_interval, bool has_event_handler, bool has_clicked);
     int SetValue();
     void Clicked(int button);
 };

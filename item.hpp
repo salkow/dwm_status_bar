@@ -14,7 +14,7 @@ public:
     virtual void UpdateWhenEvent();
     virtual void Clicked(int button);
 
-    Item(int update_interval, bool has_event_handler, bool needs_internet, bool has_clicked);
+    Item(int update_interval, bool has_event_handler, bool has_clicked);
     virtual ~Item();
 
     int update_interval_;
@@ -23,7 +23,6 @@ public:
     int signal_;
     bool is_active_;
     bool has_event_handler_;
-	bool needs_internet_;
     bool has_clicked_;
 };
 
