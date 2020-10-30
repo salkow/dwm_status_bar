@@ -16,9 +16,19 @@ Weather::Weather(int update_interval, bool has_event_handler, bool needs_interne
 
 int Weather::SetValue()
 {
-    DownloadFile(URL, DOWNLOAD_LOCATION);
+    if (DownloadFile(URL, DOWNLOAD_LOCATION) == false)
+    {
+        is_active_ = false;
+        return 1;
+    }
 
     std::ifstream test_file(DOWNLOAD_LOCATION, std::ifstream::binary);
+
+    if (!(test_file.is_open()))
+    {
+        is_active_ = false;
+        return 1;
+    }
 
     Json::Value weather;
     test_file >> weather;
@@ -55,7 +65,7 @@ static size_t WriteData(void* ptr, size_t size, size_t nmemb, void* stream)
 bool Weather::DownloadFile(const char* url, const char* location)
 {
     CURLcode res = curl_global_init(CURL_GLOBAL_ALL);
-    if(res) return 1;
+    if(res) return false;
 
     bool retval = false;
 
