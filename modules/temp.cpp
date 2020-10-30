@@ -11,7 +11,6 @@ Temp::Temp(int update_interval, bool has_event_handler, bool needs_internet,
 int Temp::SetValue()
 {
     FILE* fp = fopen("/sys/class/thermal/thermal_zone0/temp", "r");
-
     if (fp == nullptr)
     {
         is_active_ = false;

@@ -19,7 +19,8 @@ int Mpd::SetValue()
 	if(mpd_connection_get_error(con)) 
 	{
 		mpd_connection_free(con);
-        //error
+		is_active_ = false;
+		return 1;	
 	}
 
 	mpd_command_list_begin(con, true);
@@ -81,6 +82,12 @@ int Mpd::SetValue()
 void Mpd::UpdateWhenEvent()
 {
 	struct mpd_connection* con = mpd_connection_new(NULL, 0, 30000);
+	if(mpd_connection_get_error(con)) 
+	{
+		mpd_connection_free(con);
+		is_active_ = false;
+		return;
+	}
 
 	char status_bar_signal[4];
 	snprintf(status_bar_signal, 4, "%03d", signal_);
