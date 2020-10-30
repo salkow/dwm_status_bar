@@ -67,6 +67,6 @@ void Task::Clicked(int button)
 {
     if (button == 1)
     {
-        system("setsid -f st -t vit -e zsh -c 'vit && zsh' >/dev/null 2>&1");
+        system("setsid -f st -t vit -e zsh -c 'vit && zsh'");
     }
 }

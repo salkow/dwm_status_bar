@@ -44,7 +44,7 @@ void News::Clicked(int button)
 {
     if (button == 1)
     {
-        system("setsid -f st -t newsboat -e zsh -c 'newsboat -C /home/salkow/.config/newsboat/config -u /home/salkow/.config/newsboat/urls && zsh' >/dev/null 2>&1");
+        system("setsid -f st -t newsboat -e zsh -c 'newsboat -C /home/salkow/.config/newsboat/config -u /home/salkow/.config/newsboat/urls && zsh'");
 
         // Signal application to update the number of unread news.
         char status_bar_signal[4];

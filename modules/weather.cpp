@@ -292,6 +292,6 @@ void Weather::Clicked(int button)
 {
     if (button == 1)
     {
-        system("setsid -f st -t Weather -e zsh -c 'curl wttr.in 2>&1 && zsh' >/dev/null 2>&1");
+        system("setsid -f st -t Weather -e zsh -c 'curl wttr.in 2>&1 && zsh'");
     }
 }

@@ -107,6 +107,6 @@ void Date::Clicked(int button)
 {
 	if (button == 1)
 	{
-		system("setsid -f st -t calcurse -e zsh -c 'calcurse && zsh >/dev/null 2>&1'");
+		system("setsid -f st -t calcurse -e zsh -c 'calcurse && zsh'");
 	}
 }

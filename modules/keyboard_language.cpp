@@ -155,6 +155,6 @@ void KeyboardLanguage::Clicked(int button)
 {
 	if (button == 4 || button == 5)
 	{
-		system("setsid -f xkb-switch -n >/dev/null 2>&1");
+		system("setsid -f xkb-switch -n");
 	}
 }

@@ -104,21 +104,21 @@ void Mpd::Clicked(int button)
 {
 	if (button == 1)
 	{
-		system("setsid -f st -t ncmpcpp -e zsh -c 'ncmpcpp && zsh' >/dev/null 2>&1");
+		system("setsid -f st -t ncmpcpp -e zsh -c 'ncmpcpp && zsh'");
 	}
 
 	else if (button == 2)
 	{
-		system("setsid -f mpc toggle >/dev/null 2>&1");
+		system("setsid -f mpc toggle");
 	}
 
 	else if (button == 4)
 	{
-		system("setsid -f mpc next >/dev/null 2>&1");
+		system("setsid -f mpc next");
 	}
 
 	else if (button == 5)
 	{
-		system("setsid -f mpc prev >/dev/null 2>&1");
+		system("setsid -f mpc prev");
 	}
 }

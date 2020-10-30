@@ -247,21 +247,21 @@ void Volume::Clicked(int button)
 {
     if (button == 1)
     {
-        system("setsid -f st -t alsamixer -e zsh -c 'alsamixer && zsh' >/dev/null 2>&1");
+        system("setsid -f st -t alsamixer -e zsh -c 'alsamixer && zsh'");
     }
 
     else if (button == 2)
     {
-        system("setsid -f amixer set Master toggle >/dev/null 2>&1");
+        system("setsid -f amixer set Master toggle");
     }
 
     else if (button == 4)
     {
-        system("setsid -f amixer set Master 5%+ >/dev/null 2>&1");
+        system("setsid -f amixer set Master 5%+");
     }
 
     else if (button == 5)
     {
-        system("setsid -f amixer set Master 5%- >/dev/null 2>&1");
+        system("setsid -f amixer set Master 5%-");
     }
 }
