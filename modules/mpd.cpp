@@ -39,6 +39,11 @@ int Mpd::SetValue()
 	mpd_response_next(con);
 
 	song = mpd_recv_song(con);
+	if (!song)
+	{
+		is_active_ = false;	
+		return 1;
+	}
 
 	title = mpd_song_get_tag(song, MPD_TAG_TITLE, 0);
 	if(!title)
@@ -47,6 +52,11 @@ int Mpd::SetValue()
 	}
 
 	artist = mpd_song_get_tag(song, MPD_TAG_ARTIST, 0);
+	if (!artist)
+	{
+		is_active_ = false;
+		return 1;
+	}
 
     std::string old_value = value_;
 
