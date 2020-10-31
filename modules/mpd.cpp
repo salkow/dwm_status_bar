@@ -1,4 +1,5 @@
 #include "mpd.hpp"
+#include "../config.hpp"
 
 #include <fmt/core.h>
 #include <string>
@@ -111,7 +112,7 @@ void Mpd::UpdateWhenEvent()
 		}	
 
 		// Signal application to update the volume.
-		int fd = open("/home/salkow/Projects/dwm_status_bar/update_fifo", O_WRONLY | O_NONBLOCK);
+		int fd = open(FIFO_FILE, O_WRONLY | O_NONBLOCK);
 	    write(fd, status_bar_signal, 3);
 	    close(fd);
     }
@@ -125,7 +126,7 @@ void Mpd::Clicked(int button)
 {
 	if (button == 1)
 	{
-		system("setsid -f st -t ncmpcpp -e zsh -c 'ncmpcpp && zsh'");
+		system(fmt::format("setsid -f {0} -t ncmpcpp -e {1} -c 'ncmpcpp && {1}'", TERMINAL, SHELL).c_str());
 	}
 
 	else if (button == 2)

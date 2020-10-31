@@ -1,4 +1,5 @@
 #include "weather.hpp"
+#include "../config.hpp"
 
 #include <curl/curl.h>
 #include <string>
@@ -301,6 +302,6 @@ void Weather::Clicked(int button)
 {
     if (button == 1)
     {
-        system("setsid -f st -t Weather -e zsh -c 'curl wttr.in 2>&1 && zsh'");
+		system(fmt::format("setsid -f {0} -t Weather -e {1} -c 'curl wttr.in 2>&1 && {1}'", TERMINAL, SHELL).c_str());
     }
 }

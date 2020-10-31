@@ -1,4 +1,5 @@
 #include "task.hpp"
+#include "../config.hpp"
 
 #include <cstdio>
 #include <fmt/core.h>
@@ -66,6 +67,6 @@ void Task::Clicked(int button)
 {
     if (button == 1)
     {
-        system("setsid -f st -t vit -e zsh -c 'vit && zsh'");
+		system(fmt::format("setsid -f {0} -t vit -e {1} -c 'vit && {1}'", TERMINAL, SHELL).c_str());
     }
 }

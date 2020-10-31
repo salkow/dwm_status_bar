@@ -1,4 +1,5 @@
 #include "updates.hpp"
+#include "../config.hpp"
 
 #include <cstdio>
 #include <fmt/core.h>
@@ -51,6 +52,6 @@ void Updates::Clicked(int button)
 {
 	if (button == 1)
 	{
-		system("setsid -f st -t Updates -e zsh -c 'yay -Syu && zsh'");
+		system(fmt::format("setsid -f {0} -t Updates -e {1} -c 'yay -Syu && {1}'", TERMINAL, SHELL).c_str());
 	}
 }

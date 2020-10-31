@@ -1,4 +1,5 @@
 #include "date.hpp"
+#include "../config.hpp"
 
 #include <string.h>
 #include <fmt/core.h>
@@ -106,6 +107,6 @@ void Date::Clicked(int button)
 {
 	if (button == 1)
 	{
-		system("setsid -f st -t calcurse -e zsh -c 'calcurse && zsh'");
+		system(fmt::format("setsid -f {0} -t calcurse -e {1} -c 'calcurse && {1}'", TERMINAL, SHELL).c_str());
 	}
 }

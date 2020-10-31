@@ -1,4 +1,5 @@
 #include "volume.hpp"
+#include "../config.hpp"
 
 #include "fmt/core.h"
 #include "string"
@@ -110,7 +111,7 @@ void Volume::UpdateWhenEvent()
     while(MonitorNative(DEVICE) == 1)
 	{
 		// Signal application to update the volume.
-		int fd = open("/home/salkow/Projects/dwm_status_bar/update_fifo", O_WRONLY | O_NONBLOCK);
+		int fd = open(FIFO_FILE, O_WRONLY | O_NONBLOCK);
         write(fd, status_bar_signal, 4);
         close(fd);
     }
@@ -246,7 +247,7 @@ void Volume::Clicked(int button)
 {
     if (button == 1)
     {
-        system("setsid -f st -t alsamixer -e zsh -c 'alsamixer && zsh'");
+		system(fmt::format("setsid -f {0} -t alsamixer -e {1} -c 'alsamixer && {1}'", TERMINAL, SHELL).c_str());
     }
 
     else if (button == 2)

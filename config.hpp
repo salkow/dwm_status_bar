@@ -1,6 +1,8 @@
 #ifndef __CONFIG_HPP__
 #define __CONFIG_HPP__
 
+class KeyboardLanguage;
+
 #include "modules/mpd.hpp"
 #include "modules/news.hpp"
 #include "modules/updates.hpp"
@@ -30,9 +32,11 @@ typedef struct
     FuncPtr CreateInstancePtr;
 } ItemData;
 
-static const int UPDATE_INTERVAL = 10;
-static const char DELIM_CHARACTER = '|';
-static const char *FIFO_FILE = "/home/salkow/Projects/dwm_status_bar/update_fifo";
+#define UPDATE_INTERVAL 10
+#define DELIM_CHARACTER '|'
+#define FIFO_FILE "/home/salkow/Projects/dwm_status_bar/update_fifo"
+#define SHELL "zsh"
+#define TERMINAL "st"
 
 static const ItemData items_data[] =
 {

@@ -1,4 +1,5 @@
 #include "keyboard_language.hpp"
+#include "../config.hpp"
 
 #include <algorithm>
 #include <cctype>
@@ -78,7 +79,7 @@ void KeyboardLanguage::UpdateWhenEvent()
 		WaitEvent(dis);
 
 		// Signal application to update the keyboard language.
-		int fd = open("/home/salkow/Projects/dwm_status_bar/update_fifo", O_WRONLY | O_NONBLOCK);
+		int fd = open(FIFO_FILE, O_WRONLY | O_NONBLOCK);
 
 		write(fd, status_bar_signal, 3);
 		close(fd);
