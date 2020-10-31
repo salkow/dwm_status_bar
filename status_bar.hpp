@@ -20,6 +20,11 @@ public:
 	void SetValue();
 
 	void SetRoot();
+
+	std::string GetFifoFile();
+
+	std::vector<std::string> GetItemNames();
+
 private:
 	std::vector<Item*> items_;	
 	std::vector<std::thread> event_threads_;
@@ -36,12 +41,6 @@ private:
 	std::thread read_fifo_thread_;
 
 	std::atomic_bool is_running_;
-
-	int update_interval_;
-
-	char delim_character_;
-
-	char fifo_file_[256];
 };
 
 

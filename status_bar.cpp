@@ -1,4 +1,15 @@
 #include "status_bar.hpp"
+#include "config.hpp"
+
+#include "modules/mpd.hpp"
+#include "modules/news.hpp"
+#include "modules/updates.hpp"
+#include "modules/temp.hpp"
+#include "modules/keyboard_language.hpp"
+#include "modules/weather.hpp"
+#include "modules/volume.hpp"
+#include "modules/date.hpp"
+#include "modules/task.hpp"
 
 #include <sstream>
 #include <exception>
@@ -72,7 +83,7 @@ void StatusBar::SetValue()
 	{
 		if ((*i)->is_active_ == 1)
 		{
-			status_bar_stream << ' ' << (*i)->value_ << " " << delim_character_;
+			status_bar_stream << ' ' << (*i)->value_ << " " << DELIM_CHARACTER;
 		}
 	}
 
@@ -91,7 +102,7 @@ void StatusBar::Start()
 		{
 			if ((*i)->update_interval_ != -1)
 			{
-				(*i)->update_interval_ -= update_interval_;	
+				(*i)->update_interval_ -= UPDATE_INTERVAL;	
 
 				if ((*i)->update_interval_ <= 0)
 				{
@@ -107,7 +118,7 @@ void StatusBar::Start()
 			SetRoot();
 		}
 
-		sleep(update_interval_);
+		sleep(UPDATE_INTERVAL);
 	}
 }
 
@@ -115,15 +126,15 @@ void StatusBar::ReadFifo()
 {
 	int my_fd;
 
-	remove(fifo_file_);
+	remove(FIFO_FILE);
 
-	mkfifo(fifo_file_, 0666);
+	mkfifo(FIFO_FILE, 0666);
 
 	char signal[4];
 
 	while (is_running_)
 	{
-		my_fd = open(fifo_file_, O_RDONLY);
+		my_fd = open(FIFO_FILE, O_RDONLY);
 
 		read(my_fd, &signal, 4);
 
@@ -164,4 +175,22 @@ void StatusBar::ReadFifo()
 
 		close(my_fd);
 	}
+}
+
+void StatusBar::CreateItems()
+{
+	int num_of_items = sizeof(items_data) / sizeof(ItemData);
+
+	for (int i = 0; i < num_of_items; i++)
+	{
+		// items_.push_back(new Mpd(items_data[i]))
+		// items_.push_back(new map_items[items_data[i].name]());
+		// items_.push_back(new items_data.);
+
+		items_.push_back(items_data[i].CreateInstancePtr(items_data[i].name, items_data[i].update_interval,
+											  items_data[i].has_event_handler,
+											  items_data[i].has_click_event));
+	}
+
+	items_.shrink_to_fit();
 }
