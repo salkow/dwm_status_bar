@@ -174,8 +174,8 @@ void StatusBar::CreateItems()
 	for (int i = 0; i < num_of_items; i++)
 	{
 		items_.push_back(items_data[i].CreateInstancePtr(items_data[i].name, items_data[i].update_interval,
-											  items_data[i].has_event_handler,
-											  items_data[i].has_click_event));
+											  			 items_data[i].has_event_handler,
+														 items_data[i].has_click_event));
 	}
 
 	items_.shrink_to_fit();
