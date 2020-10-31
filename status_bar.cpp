@@ -1,16 +1,6 @@
 #include "status_bar.hpp"
 #include "config.hpp"
 
-#include "modules/mpd.hpp"
-#include "modules/news.hpp"
-#include "modules/updates.hpp"
-#include "modules/temp.hpp"
-#include "modules/keyboard_language.hpp"
-#include "modules/weather.hpp"
-#include "modules/volume.hpp"
-#include "modules/date.hpp"
-#include "modules/task.hpp"
-
 #include <sstream>
 #include <exception>
 #include <unistd.h>
@@ -183,10 +173,6 @@ void StatusBar::CreateItems()
 
 	for (int i = 0; i < num_of_items; i++)
 	{
-		// items_.push_back(new Mpd(items_data[i]))
-		// items_.push_back(new map_items[items_data[i].name]());
-		// items_.push_back(new items_data.);
-
 		items_.push_back(items_data[i].CreateInstancePtr(items_data[i].name, items_data[i].update_interval,
 											  items_data[i].has_event_handler,
 											  items_data[i].has_click_event));

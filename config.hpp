@@ -14,7 +14,6 @@
 #include "item.hpp"
 
 #include <string>
-#include <map>
 
 template<typename T> 
 Item * CreateInstance(std::string name, int update_interval, int has_event_handler, int has_click_event) 
