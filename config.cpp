@@ -18,15 +18,15 @@ void StatusBar::CreateItems()
 
 	// Update interval, has event handler, has click event
 
-	items_.push_back(new Mpd(3600, 1, 1));
-	items_.push_back(new News(3600, 0, 1));
-	items_.push_back(new Task(1800, 0, 1));
-	// items_.push_back(new Updates(10, 1));
-	items_.push_back(new Temp(60, 0, 0));
-	items_.push_back(new KeyboardLanguage(3600, 1, 1));
-	items_.push_back(new Weather(3600, 0, 1));
-	items_.push_back(new Volume(3600, 1, 1));
-	items_.push_back(new Date(60, 0, 1));
+	items_.push_back(new Mpd("MPD", 3600, 1, 1));
+	items_.push_back(new News("NEWS", 3600, 0, 1));
+	items_.push_back(new Task("TASK", 1800, 0, 1));
+	// items_.push_back(new Updates("UPDATES", 3600, 0, 0));
+	items_.push_back(new Temp("TEMP", 60, 0, 0));
+	items_.push_back(new KeyboardLanguage("LANGUAGE", 3600, 1, 1));
+	items_.push_back(new Weather("WEATHER", 3600, 0, 1));
+	items_.push_back(new Volume("VOLUME", 3600, 1, 1));
+	items_.push_back(new Date("DATE", 60, 0, 1));
 
 	items_.shrink_to_fit();
 }

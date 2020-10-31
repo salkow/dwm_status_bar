@@ -6,7 +6,7 @@
 class Temp : public Item
 {
 public:
-    Temp(int update_interval, bool has_event_handler, bool has_clicked);
+    Temp(std::string name, int update_interval, bool has_event_handler, bool has_clicked);
     int SetValue();
 };
 

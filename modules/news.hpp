@@ -6,7 +6,7 @@
 class News : public Item
 {
 public:
-    News(int update_interval, bool has_event_handler, bool has_clicked);
+    News(std::string name, int update_interval, bool has_event_handler, bool has_clicked);
     int SetValue();
     void Clicked(int button);
 };

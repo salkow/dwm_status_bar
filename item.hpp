@@ -14,9 +14,10 @@ public:
     virtual void UpdateWhenEvent();
     virtual void Clicked(int button);
 
-    Item(int update_interval, bool has_event_handler, bool has_clicked);
+    Item(std::string name, int update_interval, bool has_event_handler, bool has_clicked);
     virtual ~Item();
 
+	std::string name_;
     int update_interval_;
     const int default_update_interval_;
     std::string value_;

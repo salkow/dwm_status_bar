@@ -4,8 +4,8 @@
 #include <fmt/core.h>
 #include <string>
 
-Temp::Temp(int update_interval, bool has_event_handler, bool has_clicked)
-    : Item(update_interval, has_event_handler, has_clicked) {}
+Temp::Temp(std::string name, int update_interval, bool has_event_handler, bool has_clicked)
+    : Item(name, update_interval, has_event_handler, has_clicked) {}
 
 int Temp::SetValue()
 {
