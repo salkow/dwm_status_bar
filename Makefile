@@ -1,20 +1,18 @@
 CPPFLAGS := -Wall -Wextra -pedantic -Wshadow -Wpointer-arith -Wcast-align \
             -Wwrite-strings -Wmissing-declarations \
             -Wredundant-decls -Winline \
-			-Wuninitialized -pthread -O0 -g
+			-Wuninitialized -O0 -g
 
 CC = g++
-LIBS = -lX11 -lfmt -lasound -lxkbfile -lcurl -ljsoncpp -lmpdclient
+LIBS = -lX11 -lfmt -lasound -lxkbfile -lcurl -ljsoncpp -lmpdclient -pthread
 
 SRCS = main.cpp status_bar.cpp item.cpp util.cpp modules/date.cpp modules/temp.cpp modules/task.cpp modules/news.cpp modules/volume.cpp modules/keyboard_language.cpp  modules/weather.cpp modules/mpd.cpp
-# SRCS = main.cpp status_bar.cpp item.cpp util.cpp modules/keyboard_language.cpp modules/date.cpp
 
 OBJ = $(SRCS:.cpp=.o)
-
 TARGET = dwm_status_bar
 
 ${TARGET}: ${OBJ}
-	${CC} $(CPPFLAGS) ${LIBS} ${OBJ} -o ${TARGET}
+	${CC} $(CPPFLAGS) ${OBJ} -o ${TARGET} ${LIBS} 
 
 main.o: main.cpp status_bar.o util.o
 	${CC} -c main.cpp
@@ -27,9 +25,6 @@ item.o: item.cpp item.hpp
 
 util.o: util.cpp util.hpp
 	${CC} -c util.cpp
-
-# config.o: config.cpp item.hpp
-# 	${CC} -c config.cpp
 
 # Modules
 date.o: modules/date.cpp modules/date.hpp item.hpp
@@ -64,7 +59,10 @@ clean:
 
 install: ${TARGET}
 	cp -f dwm_status_bar /usr/local/bin
+	cp -f signal_status_bar /usr/local/bin
 	chmod 755 /usr/local/bin/dwm_status_bar
+	chmod 755 /usr/local/bin/signal_status_bar
 
 uninstall:
 	rm -f /usr/local/bin/dwm_status_bar
+	rm -f /usr/local/bin/signal_status_bar

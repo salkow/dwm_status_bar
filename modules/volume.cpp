@@ -19,25 +19,25 @@ int Volume::SetValue()
 	if (snd_mixer_open(&h_mixer, 1) < 0)
     {
 		is_active_ = false;
-        return 0;
+        return 1;
     }
 
 	if (snd_mixer_attach(h_mixer, DEVICE) < 0)
     {
 		is_active_ = false;
-        return 0;
+        return 1;
     }
 
 	if (snd_mixer_selem_register(h_mixer, NULL, NULL) < 0)
     {
 		is_active_ = false;
-        return 0;
+        return 1;
     }
 
 	if (snd_mixer_load(h_mixer) < 0)
     {
 		is_active_ = false;
-        return 0;
+        return 1;
     }
 
 	snd_mixer_selem_id_alloca(&sid);
@@ -47,7 +47,7 @@ int Volume::SetValue()
 	if ((elem = snd_mixer_find_selem(h_mixer, sid)) == NULL)
     {
 		is_active_ = false;
-		return 0;
+		return 1;
     }
 
     long minvolume, maxvolume;
@@ -136,8 +136,7 @@ int Volume::MonitorNative(char const *name)
 			{
                 // fprintf(stderr, "alsactl: too many cards\n");
                 CloseAll(ctls, ncards);
-                // return -E2BIG;
-                return 0;
+                return 1;
             }
 
             sprintf(cardname, "hw:%d", card);
@@ -202,14 +201,14 @@ int Volume::MonitorNative(char const *name)
                 unsigned int mask = snd_ctl_event_elem_get_mask(event);
                 if (mask & SND_CTL_EVENT_MASK_VALUE) {
                     CloseAll(ctls, ncards);
-                    return 1;
+                    return 0;
                 }
             }
         }
     }
 
     CloseAll(ctls, ncards);
-    return 0;
+    return 1;
 }
 
 int Volume::OpenCtl(const char *name, snd_ctl_t **ctlp) 

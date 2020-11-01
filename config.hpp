@@ -1,6 +1,8 @@
 #ifndef __CONFIG_HPP__
 #define __CONFIG_HPP__
 
+#ifndef SIGNAL
+
 #include "modules/mpd.hpp"
 #include "modules/news.hpp"
 // #include "modules/updates.hpp"
@@ -13,13 +15,36 @@
 
 #include "item.hpp"
 
+// Just forward declaration of the classes in case of signal.
+#else
+
+class Item;
+class Mpd;
+class News;
+class Task;
+class Update;
+class Temp;
+class KeyboardLanguage;
+class Weather;
+class Volume;
+class Date;
+
+class ItemData;
+
+#endif
+
 #include <string>
 
 // This is used for assigning a correct CreateInstance function in each module.
 template<typename T> 
 Item *CreateInstance(ItemData* data, int signal)
 { 
+#ifndef SIGNAL
 	return new T(data, signal);
+// Return dummy value in case of signal.
+#else
+    return nullptr;
+#endif
 }
 
 typedef Item *(*FuncPtr)(ItemData* data, int signal);
@@ -42,16 +67,16 @@ struct ItemData
 
 static ItemData item_data[] =
 {
-// 		   Name | UpdateInterval | HasEventHandler | HasClickEvent | CreateInstance Function
-        { "MPD", 	 3600, 		      1, 					1,		 CreateInstance<Mpd> },
-        { "NEWS", 	 3600, 			  0, 					1, 		 CreateInstance<News> },
-        { "TASK",    1800,   		  0, 					1, 		 CreateInstance<Task> },
-        // { "UPDATES", 3600,   		  0, 					0, 		 CreateInstance<Updates> },
-        { "TEMP",    60,     		  0, 					0, 		 CreateInstance<Temp> },
-        { "LANGUAGE",3600,   		  1, 					1, 		 CreateInstance<KeyboardLanguage> },
-        { "WEATHER", 3600,   		  0, 					1, 		 CreateInstance<Weather> },
-        { "VOLUME",  3600,   		  1, 					1, 		 CreateInstance<Volume> },
-        { "DATE",    60,     		  0, 					1, 		 CreateInstance<Date> }
+//	   Name | UpdateInterval | HasEventHandler | HasClickEvent | CreateInstance Function
+    { "MPD", 	 3600, 		      1, 					1,		 CreateInstance<Mpd> },
+    { "NEWS", 	 3600, 			  0, 					1, 		 CreateInstance<News> },
+    { "TASK",    1800,   		  0, 					1, 		 CreateInstance<Task> },
+    // { "UPDATES", 3600,   		  0, 					0, 		 CreateInstance<Updates> },
+    { "TEMP",    60,     		  0, 					0, 		 CreateInstance<Temp> },
+    { "LANGUAGE",3600,   		  1, 					1, 		 CreateInstance<KeyboardLanguage> },
+    { "WEATHER", 3600,   		  0, 					1, 		 CreateInstance<Weather> },
+    { "VOLUME",  3600,   		  1, 					1, 		 CreateInstance<Volume> },
+    { "DATE",    60,     		  0, 					1, 		 CreateInstance<Date> }
 };
 
 #endif // __CONFIG_HPP__
