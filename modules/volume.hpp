@@ -12,7 +12,7 @@
 class Volume : public Item
 {
 public:
-    Volume(std::string name, int update_interval, bool has_event_handler, bool has_clicked);
+    Volume(ItemData* data, int signal);
     void UpdateWhenEvent();
     int SetValue();
     void Clicked(int button);

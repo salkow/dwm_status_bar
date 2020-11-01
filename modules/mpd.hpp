@@ -8,7 +8,7 @@
 class Mpd : public Item
 {
 public:
-  Mpd(std::string name, int update_interval, bool has_event_handler, bool has_clicked);
+  Mpd(ItemData* data, int signal);
   int SetValue();
   void UpdateWhenEvent();
   void Clicked(int button);

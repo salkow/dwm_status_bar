@@ -11,6 +11,8 @@
 #include <fcntl.h>
 #include <iostream>
 
+using namespace std;
+
 StatusBar::StatusBar()
 {
 	is_running_ = true;
@@ -23,16 +25,16 @@ StatusBar::StatusBar()
 	{
 		if ((*i)->default_update_interval_ == 0)
 		{
-			(*i)->update_interval_ = -1;
+			(*i)->data_->update_interval_ = -1;
 		}
 
 		else
 		{
 			// 0, to update immediately when it starts.
-			(*i)->update_interval_ = 0;
+			(*i)->data_->update_interval_ = 0;
 		}
 
-		if ((*i)->has_event_handler_ == true)
+		if ((*i)->data_->has_event_handler_ == true)
 		{
 			std::thread event_handler(&Item::UpdateWhenEvent, (*i));
 			event_handler.detach();
@@ -90,14 +92,15 @@ void StatusBar::Start()
 
     	for (auto i = items_.begin(); i != items_.end(); ++i) 
 		{
-			if ((*i)->update_interval_ != -1)
+			if ((*i)->data_->update_interval_ != -1)
 			{
-				(*i)->update_interval_ -= UPDATE_INTERVAL;	
+				(*i)->data_->update_interval_ -= UPDATE_INTERVAL;	
 
-				if ((*i)->update_interval_ <= 0)
+				if ((*i)->data_->update_interval_ <= 0)
 				{
 					has_changed += (*i)->SetValue();
-					(*i)->update_interval_ = (*i)->default_update_interval_;
+
+					(*i)->data_->update_interval_ = (*i)->default_update_interval_;
 				}
 			}
 		}
@@ -105,6 +108,7 @@ void StatusBar::Start()
 		if (has_changed)
 		{
 			SetValue();
+
 			SetRoot();
 		}
 
@@ -153,7 +157,7 @@ void StatusBar::ReadFifo()
 			{
 				if ((*i)->is_active_ == true)
 				{
-					if (pos == 0 && (*i)->has_clicked_ == true)
+					if (pos == 0 && (*i)->data_->has_clicked_ == true)
 					{
 						(*i)->Clicked(signal_origin);
 					}
@@ -169,13 +173,11 @@ void StatusBar::ReadFifo()
 
 void StatusBar::CreateItems()
 {
-	int num_of_items = sizeof(items_data) / sizeof(ItemData);
+	int num_of_items = sizeof(item_data) / sizeof(ItemData);
 
 	for (int i = 0; i < num_of_items; i++)
 	{
-		items_.push_back(items_data[i].CreateInstancePtr(items_data[i].name, items_data[i].update_interval,
-											  			 items_data[i].has_event_handler,
-														 items_data[i].has_click_event));
+		items_.push_back(item_data[i].CreateInstancePtr_(&(item_data[i]), i));
 	}
 
 	items_.shrink_to_fit();

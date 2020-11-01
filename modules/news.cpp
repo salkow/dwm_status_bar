@@ -5,8 +5,8 @@
 #include <fmt/core.h>
 #include <string>
 
-News::News(std::string name, int update_interval, bool has_event_handler, bool has_clicked)
-    : Item(name, update_interval, has_event_handler, has_clicked) {}
+News::News(ItemData* data, int signal)
+    : Item(data, signal){}
 
 int News::SetValue()
 {

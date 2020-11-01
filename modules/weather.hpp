@@ -12,7 +12,7 @@
 class Weather : public Item
 {
 public:
-    Weather(std::string name, int update_interval, bool has_event_handler, bool has_clicked);
+    Weather(ItemData* dat, int signal);
     int SetValue();
     void Clicked(int button);
 

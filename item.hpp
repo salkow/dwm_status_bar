@@ -7,6 +7,8 @@
 #include <unistd.h>
 #include <cstdlib>
 
+class ItemData;
+
 class Item
 {
 public:
@@ -14,17 +16,15 @@ public:
     virtual void UpdateWhenEvent();
     virtual void Clicked(int button);
 
-    Item(std::string name, int update_interval, bool has_event_handler, bool has_clicked);
+    Item(ItemData *data, int signal);
     virtual ~Item();
 
-	std::string name_;
-    int update_interval_;
     const int default_update_interval_;
     std::string value_;
-    int signal_;
     bool is_active_;
-    bool has_event_handler_;
-    bool has_clicked_;
+    int signal_;
+
+    ItemData* data_;
 };
 
 #endif // __ITEM_HPP__

@@ -10,8 +10,8 @@
 static char clock_emoji[12][5] = 
 	{"🕛", "🕐", "🕑", "🕒", "🕓", "🕔", "🕕", "🕖", "🕗", "🕘", "🕙", "🕚"};
 
-Date::Date(std::string name, int update_interval, bool has_event_handler, bool has_clicked)
-	: Item(name, update_interval, has_event_handler, has_clicked) {}
+Date::Date(ItemData *data, int signal)
+	: Item(data, signal) {}
 
 int Date::SetValue()
 {

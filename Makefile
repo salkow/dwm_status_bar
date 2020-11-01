@@ -6,7 +6,8 @@ CPPFLAGS := -Wall -Wextra -pedantic -Wshadow -Wpointer-arith -Wcast-align \
 CC = g++
 LIBS = -lX11 -lfmt -lasound -lxkbfile -lcurl -ljsoncpp -lmpdclient
 
-SRCS = $(wildcard *.cpp) $(wildcard modules/*.cpp)
+SRCS = main.cpp status_bar.cpp item.cpp util.cpp modules/date.cpp modules/temp.cpp modules/task.cpp modules/news.cpp modules/volume.cpp modules/keyboard_language.cpp  modules/weather.cpp modules/mpd.cpp
+# SRCS = main.cpp status_bar.cpp item.cpp util.cpp modules/keyboard_language.cpp modules/date.cpp
 
 OBJ = $(SRCS:.cpp=.o)
 

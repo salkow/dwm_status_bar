@@ -21,7 +21,7 @@ typedef std::pair<std::string,std::string> LayoutVariantStrings;
 class KeyboardLanguage : public Item
 {
 public:
-	KeyboardLanguage(std::string name, int update_interval, bool has_event_handler, bool has_clicked);
+	KeyboardLanguage(ItemData* data, int signal);
 	~KeyboardLanguage();
 	int SetValue();
 	void UpdateWhenEvent();

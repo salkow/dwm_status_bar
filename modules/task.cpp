@@ -5,8 +5,8 @@
 #include <fmt/core.h>
 #include <string>
 
-Task::Task(std::string name, int update_interval, bool has_event_handler, bool has_clicked)
-    : Item(name, update_interval, has_event_handler, has_clicked) {}
+Task::Task(ItemData* data, int signal)
+    : Item(data, signal) {}
 
 int Task::GetTaskValue(const char *command)
 {
@@ -31,7 +31,8 @@ int Task::SetValue()
     int due_today = GetTaskValue("task +TODAY status:pending count");
     int overdue = GetTaskValue("task +OVERDUE count");
 
-    if (due_in_seven_days == -1 || due_today == -1 || overdue == -1)
+    if (due_in_seven_days == -1 || due_today == -1 || overdue == -1 ||
+       (due_in_seven_days == 0  && due_today == 0  && overdue == 0))
     {
         is_active_ = false;
         return 1;

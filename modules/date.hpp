@@ -6,7 +6,7 @@
 class Date : public Item
 {
 public:
-    Date(std::string name, int update_interval, bool has_event_handler, bool has_clicked);
+    Date(ItemData* data, int signal);
     int SetValue();
     void Clicked(int button);
 

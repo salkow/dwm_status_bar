@@ -11,8 +11,8 @@
 using std::string;
 using std::ostringstream;
 
-Weather::Weather(std::string name, int update_interval, bool has_event_handler, bool has_clicked)
-    : Item(name, update_interval, has_event_handler, has_clicked) {}
+Weather::Weather(ItemData* data, int signal)
+    : Item(data, signal) {}
 
 int Weather::SetValue()
 {

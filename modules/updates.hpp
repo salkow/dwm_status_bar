@@ -6,7 +6,7 @@
 class Updates : public Item
 {
 public:
-    Updates(std::string name, int update_interval, bool has_event_handler, bool has_clicked);
+    Updates(ItemData* data, int signal);
     int SetValue();
     void Clicked(int button);
 };
