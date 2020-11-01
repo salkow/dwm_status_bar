@@ -108,7 +108,7 @@ void Volume::UpdateWhenEvent()
     char status_bar_signal[4];
     snprintf(status_bar_signal, 4, "%03d", signal_);
 
-    while(MonitorNative(DEVICE) == 1)
+    while(MonitorNative(DEVICE) == 0)
 	{
 		// Signal application to update the volume.
 		int fd = open(FIFO_FILE, O_WRONLY | O_NONBLOCK);
@@ -134,7 +134,6 @@ int Volume::MonitorNative(char const *name)
             char cardname[16];
             if (ncards >= MAX_CARDS) 
 			{
-                // fprintf(stderr, "alsactl: too many cards\n");
                 CloseAll(ctls, ncards);
                 return 1;
             }

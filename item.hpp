@@ -19,12 +19,13 @@ public:
     Item(ItemData *data, int signal);
     virtual ~Item();
 
-    const int default_update_interval_;
-    std::string value_;
-    bool is_active_;
-    int signal_;
-
     ItemData* data_;
+    const int default_update_interval_;
+    int signal_;
+    bool is_active_;
+
+    std::string value_;
+
 };
 
 #endif // __ITEM_HPP__

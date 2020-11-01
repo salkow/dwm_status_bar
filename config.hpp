@@ -22,7 +22,7 @@ class Item;
 class Mpd;
 class News;
 class Task;
-class Update;
+/* class Update; */
 class Temp;
 class KeyboardLanguage;
 class Weather;
