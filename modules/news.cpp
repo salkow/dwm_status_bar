@@ -28,6 +28,7 @@ int News::SetValue()
     if (num_of_news == 0)
     {
         is_active_ = false;
+		return 1;
     }
 
     else
